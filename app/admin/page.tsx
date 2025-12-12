@@ -1,4 +1,6 @@
 import { GhostButton, PrimaryButton } from "@/components/ui/Buttons";
+
+export const dynamic = 'force-dynamic';
 import { IconBolt, IconMilestone, IconRoles, IconShare, IconSpark, IconStack, IconSun } from "@/components/icons";
 // import { requireRole } from "@/lib/auth-guards"; // Temporarily disabled for dev flow
 import { connectDB } from "@/lib/db";
