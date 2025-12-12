@@ -1,0 +1,9 @@
+[programs.localnet]
+portfolio = "PorFwoRk1111111111111111111111111111111111Por"
+
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"
+
+[workspace]
+members = ["programs/portfolio"]

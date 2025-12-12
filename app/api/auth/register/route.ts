@@ -1,0 +1,55 @@
+import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import UserModel from "@/models/User";
+import {
+  createSession,
+  generateAccessToken,
+  hashPassword,
+  setAuthCookies,
+} from "@/lib/auth";
+
+export async function POST(request: Request) {
+  const payload = await request.json();
+  const email = payload?.email?.toLowerCase().trim();
+  const password = payload?.password;
+  if (!email || !password) {
+    return NextResponse.json({ error: "Email and password required" }, { status: 400 });
+  }
+
+  await connectDB();
+  const existing = await UserModel.findOne({ email });
+  if (existing) {
+    return NextResponse.json({ error: "Account already exists" }, { status: 409 });
+  }
+
+  const passwordHash = await hashPassword(password);
+  const user = await UserModel.create({
+    email,
+    passwordHash,
+    firstName: payload?.firstName,
+    lastName: payload?.lastName,
+    role: "USER",
+  });
+
+  const refreshToken = await createSession({
+    userId: user._id.toString(),
+    userAgent: request.headers.get("user-agent") ?? undefined,
+    ipAddress: request.headers.get("x-forwarded-for") ?? undefined,
+  });
+  const accessToken = generateAccessToken({ userId: user._id.toString(), role: user.role });
+
+  const response = NextResponse.json(
+    {
+      data: {
+        id: user._id.toString(),
+        email: user.email,
+        role: user.role,
+      },
+      redirectTo: "/dashboard",
+    },
+    { status: 201 },
+  );
+
+  setAuthCookies(response, { accessToken, refreshToken });
+  return response;
+}

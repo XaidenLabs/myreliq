@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "programs/portfolio",
+]
+
+[workspace.dependencies]
+anchor-lang = "0.30.1"

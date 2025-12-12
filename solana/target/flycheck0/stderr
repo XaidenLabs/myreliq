@@ -1,0 +1,60 @@
+warning: virtual workspace defaulting to `resolver = "1"` despite one or more workspace members being on edition 2021 which implies `resolver = "2"`
+note: to keep the current resolver, specify `workspace.resolver = "1"` in the workspace root's manifest
+note: to use the edition 2021 resolver, specify `workspace.resolver = "2"` in the workspace root's manifest
+note: for more details see https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
+   5.150412715s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint: fingerprint error for portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)/Check { test: false }/TargetInner { ..: lib_target("portfolio", ["cdylib", "lib"], "/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio/src/lib.rs", Edition2021) }
+   5.152693003s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/target/debug/.fingerprint/portfolio-b540cb18662c4f9b/lib-portfolio`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+  18: <unknown>
+   5.459710393s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint: fingerprint error for portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)/Check { test: true }/TargetInner { ..: lib_target("portfolio", ["cdylib", "lib"], "/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio/src/lib.rs", Edition2021) }
+   5.459794670s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/target/debug/.fingerprint/portfolio-a08e69802a23ab85/test-lib-portfolio`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+  18: <unknown>
+    Checking portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)
+error: could not compile `portfolio` (lib test) due to 18 previous errors; 16 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `portfolio` (lib) due to 18 previous errors; 16 warnings emitted

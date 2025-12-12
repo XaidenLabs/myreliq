@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fef7f5;
+  --foreground: #1f1e2a;
+  --accent: #ff4c2b;
+  --card-bg: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-card: var(--card-bg);
+  --font-sans: var(--font-brand);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-brand), "Space Grotesk", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@utility bg-accent {
+  background-color: var(--accent);
+}
+
+@utility text-accent {
+  color: var(--accent);
+}
+
+@utility btn-primary {
+  @apply bg-accent text-white px-6 py-2.5 rounded-full font-medium transition-transform hover:scale-105 active:scale-95;
+}
+
+@utility btn-outline {
+  @apply border border-gray-400 text-foreground px-6 py-2.5 rounded-full font-medium transition-colors hover:border-gray-900;
+}
