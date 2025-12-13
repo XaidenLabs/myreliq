@@ -1,12 +1,8 @@
-import { NextResponse } from "next/server";
-import { clearAuthCookies, getRefreshTokenFromCookies, revokeSessionByToken } from "@/lib/auth";
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
-export async function POST() {
-  const refreshToken = await getRefreshTokenFromCookies();
-  if (refreshToken) {
-    await revokeSessionByToken(refreshToken);
-  }
-  const response = NextResponse.json({ success: true });
-  clearAuthCookies(response);
-  return response;
+export async function POST(req: NextRequest) {
+  const cookieStore = await cookies();
+  cookieStore.delete("auth_token"); // Adjust cookie name if different
+  return NextResponse.json({ message: "Logged out successfully" });
 }

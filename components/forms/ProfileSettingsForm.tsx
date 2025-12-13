@@ -26,6 +26,7 @@ export function ProfileSettingsForm() {
     });
 
     const [loading, setLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
 
     // Education Helper
@@ -102,14 +103,58 @@ export function ProfileSettingsForm() {
                 <h3 className="text-lg font-bold text-[#1f1e2a] border-b border-[#1f1e2a]/5 pb-2">Basic Info</h3>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Profile Image URL</label>
-                    <input
-                        type="text"
-                        placeholder="https://..."
-                        className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium"
-                        value={formData.profileImage}
-                        onChange={e => setFormData({ ...formData, profileImage: e.target.value })}
-                    />
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Profile Image</label>
+                    <div className="flex items-center gap-4">
+                        {formData.profileImage && (
+                            <img src={formData.profileImage} alt="Profile" className="w-12 h-12 rounded-full object-cover border border-[#1f1e2a]/10" />
+                        )}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            disabled={loading || uploading}
+                            onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    if (file.size > 5 * 1024 * 1024) {
+                                        alert("File size must be less than 5MB");
+                                        return;
+                                    }
+
+                                    setUploading(true);
+                                    try {
+                                        const uploadData = new FormData();
+                                        uploadData.append("file", file);
+
+                                        const res = await fetch("/api/upload", {
+                                            method: "POST",
+                                            body: uploadData
+                                        });
+
+                                        if (res.ok) {
+                                            const data = await res.json();
+                                            setFormData({ ...formData, profileImage: data.url });
+                                        } else {
+                                            alert("Upload failed");
+                                        }
+                                    } catch (err) {
+                                        console.error(err);
+                                        alert("Error uploading image");
+                                    } finally {
+                                        setUploading(false);
+                                    }
+                                }
+                            }}
+                            className="block w-full text-sm text-slate-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-full file:border-0
+                              file:text-xs file:font-semibold
+                              file:bg-[#fef7f5] file:text-[#ff4c2b]
+                              hover:file:bg-[#ffece8]
+                              disabled:opacity-50
+                            "
+                        />
+                        {uploading && <span className="text-xs text-[#ff4c2b] font-bold animate-pulse">Uploading...</span>}
+                    </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">

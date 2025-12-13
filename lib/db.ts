@@ -31,6 +31,7 @@ export const connectDB = async () => {
   if (!cached!.promise) {
     cached!.promise = mongoose.connect(MONGODB_URI, {
       bufferCommands: false,
+      dbName: "myreliq",
     });
   }
 

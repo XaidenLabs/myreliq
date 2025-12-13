@@ -263,6 +263,12 @@ const DashboardPage = () => {
               <p className="text-xs text-[#5d5b66] truncate">{user?.email}</p>
             </div>
           </div>
+          <button
+            onClick={() => useAuthStore.getState().logout()}
+            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-white p-2 text-xs font-bold text-[#5d5b66] transition hover:bg-red-50 hover:text-red-500 hover:border-red-200"
+          >
+            Sign Out
+          </button>
         </div>
       </aside>
 
