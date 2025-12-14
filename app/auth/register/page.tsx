@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IconEye, IconEyeOff } from "@/components/icons";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -13,6 +14,7 @@ const RegisterPage = () => {
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -84,15 +86,28 @@ const RegisterPage = () => {
           </div>
           <div>
             <label className="text-sm font-semibold">Password</label>
-            <input
-              type="password"
-              className="mt-1 w-full rounded-2xl border border-[#1f1e2a]/15 px-4 py-3"
-              placeholder="At least 8 characters"
-              required
-              minLength={8}
-              value={form.password}
-              onChange={(event) => setForm({ ...form, password: event.target.value })}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="mt-1 w-full rounded-2xl border border-[#1f1e2a]/15 px-4 py-3 pr-10"
+                placeholder="At least 8 characters"
+                required
+                minLength={8}
+                value={form.password}
+                onChange={(event) => setForm({ ...form, password: event.target.value })}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-[40%] text-[#1f1e2a]/40 hover:text-[#1f1e2a]"
+              >
+                {showPassword ? (
+                  <IconEyeOff className="h-5 w-5" />
+                ) : (
+                  <IconEye className="h-5 w-5" />
+                )}
+              </button>
+            </div>
           </div>
           <button
             type="submit"
