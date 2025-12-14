@@ -109,7 +109,15 @@ export const IconStudent = ({ className }: { className?: string }) => (
 )
 
 export const IconSolana = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 18h18" /><path d="M4 6h18" /><path d="M2 12h18" /></svg>
+  <svg viewBox="0 0 397 311" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <defs>
+      <linearGradient id="solana_gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#9945FF" />
+        <stop offset="100%" stopColor="#14F195" />
+      </linearGradient>
+    </defs>
+    <path fillRule="evenodd" clipRule="evenodd" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.8c-5.8 0-8.7-7-4.6-11.1l62.4-62.7ZM332.6 76.9c-2.4 2.4-5.7 3.8-9.2 3.8H6c-5.8 0-8.7-7-4.6-11.1L64.1 6.9C66.5 4.5 69.8 3.1 73.3 3.1h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7Zm59.6 78.4c4.1 4.1 1.2 11.1-4.6 11.1H70.2c-3.5 0-6.8-1.3-9.2-3.8L-1.6 99.9c-4.1-4.1-1.2-11.1 4.6-11.1h317.4c3.5 0 6.8 1.3 9.2 3.8l62.6 62.7Z" fill="url(#solana_gradient)" />
+  </svg>
 )
 
 export const IconMilestone = ({ className }: { className?: string }) => (

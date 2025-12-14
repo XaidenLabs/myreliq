@@ -29,10 +29,9 @@ export const SolutionSection = () => (
 
         if (index === 0) Icon = IconBolt;
         if (index === 1) Icon = IconStudent;
-        if (index === 2) Icon = IconSolana;
-        if (index === 3) Icon = IconMilestone;
-        if (index === 4) Icon = IconRoles;
-        if (index === 5) Icon = IconShare;
+        if (index === 2) Icon = IconMilestone;
+        if (index === 3) Icon = IconRoles;
+        if (index === 4) Icon = IconShare;
 
         return (
           <div

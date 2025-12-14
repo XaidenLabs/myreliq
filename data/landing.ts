@@ -64,10 +64,7 @@ export const solutionCards = [
     title: "Student-Focused, Professional-Grade",
     description: "Built for ambitious students, polished for recruiters.",
   },
-  {
-    title: "Built on Solana",
-    description: "Fast, verifiable, and future-ready from day zero.",
-  },
+
   {
     title: "Milestone Timeline",
     description: "Every sprint, win, and artifact plotted on a clear journey.",
