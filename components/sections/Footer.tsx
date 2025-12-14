@@ -32,7 +32,7 @@ export const FooterSection = () => (
       </div>
     </div>
     <div className="mt-12 flex flex-col gap-6 border-t border-white/20 pt-8 text-sm font-medium text-white/70 sm:flex-row sm:items-center sm:justify-between">
-      <p>&copy; {new Date().getFullYear()} Reliq Collective</p>
+      <p>&copy; {new Date().getFullYear()} Myreliq Collective</p>
       <div className="flex gap-8">
         <div className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold text-white uppercase tracking-wider backdrop-blur-sm">
           <IconSolana className="h-4 w-4" />
