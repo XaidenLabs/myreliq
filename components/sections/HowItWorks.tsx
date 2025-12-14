@@ -4,7 +4,7 @@ import { SectionHeading } from "./SectionHeading";
 
 export const HowItWorksSection = () => (
   <section id="how-it-works" className="py-24">
-    <SectionHeading kicker="How it Works" title="" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#1f1e2a]" />
+    <SectionHeading kicker="" title="How it Works" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#ff4c2b]" />
     <div className="mx-auto max-w-4xl space-y-6">
       {stepCards.map((step, index) => (
         <div

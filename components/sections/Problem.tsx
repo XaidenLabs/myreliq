@@ -1,15 +1,15 @@
 import { problemCards } from "@/data/landing";
-import { IconSpark, IconOutdated, IconTechnical, IconStack, IconGrowth } from "../icons";
+import { IconSpark, IconOutdated, IconTechnical, IconStack, IconGrowth, IconFlame } from "../icons";
 import { SectionHeading } from "./SectionHeading";
 
 export const ProblemSection = () => (
   <section id="problem" className="py-24">
-    <SectionHeading kicker="The Problem" title="" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#1f1e2a]" />
+    <SectionHeading kicker="" title="The Problem" className="mb-16 text-center text-3xl md:text-4xl font-bold uppercase tracking-widest text-[#ff4c2b]" />
     <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
       {problemCards.map((item, index) => {
         let Icon = IconSpark;
         if (index === 0) Icon = IconOutdated;
-        if (index === 1) Icon = IconTechnical;
+        if (index === 1) Icon = IconFlame;
         if (index === 2) Icon = IconStack;
         if (index === 3) Icon = IconGrowth;
 

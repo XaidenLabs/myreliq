@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { IconEye, IconEyeOff } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ const LoginForm = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const suspended = params.get("status") === "suspended";
 
@@ -68,14 +70,27 @@ const LoginForm = () => {
         </div>
         <div>
           <label className="text-sm font-semibold">Password</label>
-          <input
-            type="password"
-            className="mt-1 w-full rounded-2xl border border-[#1f1e2a]/15 px-4 py-3"
-            placeholder="••••••••"
-            required
-            value={form.password}
-            onChange={(event) => setForm({ ...form, password: event.target.value })}
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="mt-1 w-full rounded-2xl border border-[#1f1e2a]/15 px-4 py-3 pr-10"
+              placeholder="••••••••"
+              required
+              value={form.password}
+              onChange={(event) => setForm({ ...form, password: event.target.value })}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-[40%] text-[#1f1e2a]/40 hover:text-[#1f1e2a]"
+            >
+              {showPassword ? (
+                <IconEyeOff className="h-5 w-5" />
+              ) : (
+                <IconEye className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
         <button
           type="submit"

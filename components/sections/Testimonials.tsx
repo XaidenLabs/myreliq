@@ -3,7 +3,7 @@ import { SectionHeading } from "./SectionHeading";
 
 export const TestimonialsSection = () => (
   <section id="testimonials" className="py-24">
-    <SectionHeading kicker="Testimonials" title="" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#1f1e2a]" />
+    <SectionHeading kicker="" title="Testimonials" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#ff4c2b]" />
     <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
       {testimonials.map((person) => (
         <div

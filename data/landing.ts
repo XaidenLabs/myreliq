@@ -4,18 +4,17 @@ export const navLinks = [
   { label: "Why Myreliq?", href: "#solution" },
   { label: "Blog", href: "https://mirror.xyz", external: true },
   { label: "How it Works", href: "#how-it-works" },
-  { label: "Admin", href: "/admin" },
 ];
 
 export const heroCopy = {
-  badge: "New - Proof of Work - Daily 5/24",
+  badge: "New - Proof of Work - 24/7",
   title: "Build Your Proof-of-Work Portfolio in Minutes",
   description:
     "Set up a mobile-ready, recruiter-friendly home for every role, project, milestone, and receipt of your grind. Myreliq keeps your journey consistent, scannable, and easy to share.",
   primaryCta: "Create Portfolio",
   primaryHref: "/auth/register",
-  secondaryCta: "Contact",
-  secondaryHref: "mailto:hello@myreliq.xyz",
+  secondaryCta: "How it Works",
+  secondaryHref: "#how-it-works",
 };
 
 export const heroStickers = [
@@ -25,24 +24,34 @@ export const heroStickers = [
   { label: "Proof", icon: "sun" },
 ];
 
-export const trustedLogos = ["Catalent", "Onuo", "Catalent", "Onuo", "Catalent"];
+export const trustedLogos = [
+  "Catalent",
+  "Onuo",
+  "Catalent",
+  "Onuo",
+  "Catalent",
+];
 
 export const problemCards = [
   {
     title: "Outdated & Scattered",
-    description: "Proof-of-work lives in folders, slides, and docs no one opens.",
+    description:
+      "Proof-of-work lives in folders, slides, and docs no one opens.",
   },
   {
     title: "Too Technical or Too Expensive",
-    description: "Students shouldn't need dev skills or overpriced software to look legit.",
+    description:
+      "Students shouldn't need dev skills or overpriced software to look legit.",
   },
   {
     title: "Multiple Skills = Multiple Portfolios",
-    description: "New skill path? Yet another portfolio to spin up, update, and share.",
+    description:
+      "New skill path? Yet another portfolio to spin up, update, and share.",
   },
   {
     title: "No Clear Journey of Growth",
-    description: "Traditional resumes skip the messy middle of consistent proof-of-work.",
+    description:
+      "Traditional resumes skip the messy middle of consistent proof-of-work.",
   },
 ];
 
@@ -65,22 +74,26 @@ export const solutionCards = [
   },
   {
     title: "Add Roles & Projects",
-    description: "Document what you shipped, who you built with, and attach proof.",
+    description:
+      "Document what you shipped, who you built with, and attach proof.",
   },
   {
     title: "One Shareable Link",
-    description: "Send a single Myreliq link to mentors, recruiters, or your cohort.",
+    description:
+      "Send a single Myreliq link to mentors, recruiters, or your cohort.",
   },
 ];
 
 export const stepCards = [
   {
     title: "Create Your Base Profile",
-    description: "Securely connect, personalize, and set your proof-of-work home.",
+    description:
+      "Securely connect, personalize, and set your proof-of-work home.",
   },
   {
     title: "Add Roles, Projects & Milestones",
-    description: "Document the grind - roles, proof, and shout-outs that matter.",
+    description:
+      "Document the grind - roles, proof, and shout-outs that matter.",
   },
   {
     title: "Share Your Proof-of-Work Link",
@@ -98,12 +111,14 @@ export const testimonials = [
   {
     name: "Kwame Ofori",
     title: "Solidity Fellow, Accra",
-    quote: "Replacing scattered Notion docs with one Myreliq link changed my workflow.",
+    quote:
+      "Replacing scattered Notion docs with one Myreliq link changed my workflow.",
   },
   {
     name: "Chioma Eze",
     title: "Community Builder, Nairobi",
-    quote: "Sharing proof-of-work is now a quick DM. People instantly get my journey.",
+    quote:
+      "Sharing proof-of-work is now a quick DM. People instantly get my journey.",
   },
 ];
 

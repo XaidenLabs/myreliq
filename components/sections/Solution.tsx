@@ -4,7 +4,7 @@ import { IconBolt, IconStudent, IconSolana, IconMilestone, IconRoles, IconShare 
 
 export const SolutionSection = () => (
   <section id="solution" className="py-24">
-    <SectionHeading kicker="The Solution" title="" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#1f1e2a]" />
+    <SectionHeading kicker="" title="The Solution" className="mb-16 text-center text-3xl md:text-4xl font-bold uppercase tracking-widest text-[#ff4c2b]" />
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto">
       {solutionCards.map((solution, index) => {
         let Icon = IconBolt;

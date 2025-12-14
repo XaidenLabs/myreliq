@@ -4,7 +4,7 @@ import { SectionHeading } from "./SectionHeading";
 
 export const FAQSection = () => (
   <section id="faq" className="py-24">
-    <SectionHeading kicker="Frequently Asked Questions" title="" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#1f1e2a]" />
+    <SectionHeading kicker="" title="Frequently Asked Questions" className="mb-16 text-center text-4xl font-bold uppercase tracking-widest text-[#ff4c2b]" />
     <div className="mx-auto max-w-3xl space-y-4">
       {faqs.map((faq) => (
         <details

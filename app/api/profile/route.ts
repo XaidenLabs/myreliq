@@ -2,13 +2,12 @@ import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/db";
 import Profile from "@/models/Profile";
 import { sendError, sendSuccess } from "@/lib/api-utils";
-import User from "@/models/User";
+import { getUserFromCookies } from "@/lib/auth";
 
-// Mock Auth - Replace with real session logic in production
+// Real Auth
 const getUserId = async () => {
-  // For now, return the first user found or created as a mock "me"
-  const user = await User.findOne();
-  return user?._id;
+  const user = await getUserFromCookies();
+  return user?.id;
 };
 
 export async function GET(req: NextRequest) {

@@ -2,11 +2,11 @@ import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/db";
 import Identity from "@/models/Identity";
 import { sendError, sendSuccess } from "@/lib/api-utils";
-import User from "@/models/User";
+import { getUserFromCookies } from "@/lib/auth";
 
 const getUserId = async () => {
-  const user = await User.findOne();
-  return user?._id;
+  const user = await getUserFromCookies();
+  return user?.id;
 };
 
 export async function GET(req: NextRequest) {
