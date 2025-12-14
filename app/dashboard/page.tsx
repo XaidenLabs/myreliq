@@ -4,7 +4,7 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconBolt, IconMilestone, IconRoles, IconShare, IconSpark } from "@/components/icons";
+import { IconBolt, IconMilestone, IconRoles, IconShare, IconSpark, IconMenu } from "@/components/icons";
 import { Identity, Role, Milestone } from "@/lib/types";
 import { CreateIdentityModal } from "@/components/modals/CreateIdentityModal";
 import { CreateRoleModal } from "@/components/modals/CreateRoleModal";
@@ -186,6 +186,7 @@ const DashboardPage = () => {
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
   const [showCredentialModal, setShowCredentialModal] = useState(false);
   const [selectedRoleId, setSelectedRoleId] = useState<string | undefined>();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -225,22 +226,39 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-[#fef7f5] text-[#1f1e2a] flex">
       {/* Sidebar */}
-      <aside className="hidden w-72 flex-col justify-between border-r border-[#1f1e2a]/5 bg-white px-6 py-8 md:flex fixed h-full z-10">
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 md:hidden animate-in fade-in"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-72 transform flex-col justify-between border-r border-[#1f1e2a]/5 bg-white px-6 py-8 transition-transform duration-300 md:translate-x-0 md:static md:flex ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+      >
         <div className="flex flex-col gap-10">
-          <div className="flex items-center gap-3 px-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ff4c2b] text-white shadow-lg shadow-[#ff4c2b]/20">
-              <IconBolt className="h-6 w-6" />
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ff4c2b] text-white shadow-lg shadow-[#ff4c2b]/20">
+                <IconBolt className="h-6 w-6" />
+              </div>
+              <a href="/">
+                <p className="text-xl font-bold tracking-tight">myreliq</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#ff4c2b]">Dashboard</p>
+              </a>
             </div>
-            <a href="/">
-              <p className="text-xl font-bold tracking-tight">myreliq</p>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#ff4c2b]">Dashboard</p>
-            </a>
           </div>
           <nav className="flex flex-col gap-2 font-medium text-base">
             {["overview", "portfolio", "settings", "credentials"].map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab as any)}
+                onClick={() => {
+                  setActiveTab(tab as any);
+                  setSidebarOpen(false);
+                }}
                 className={`group flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-300 capitalize ${activeTab === tab
                   ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/10"
                   : "text-[#5d5b66] hover:bg-[#ffece8] hover:text-[#ff4c2b]"
@@ -273,9 +291,15 @@ const DashboardPage = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 md:ml-72 transition-all duration-500">
+      <div className="flex-1 transition-all duration-500">
         <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[#1f1e2a]/5 bg-white/80 px-6 py-5 backdrop-blur-xl md:px-10">
-          <div>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="rounded-lg p-2 text-[#1f1e2a] hover:bg-gray-100 md:hidden"
+            >
+              <IconMenu className="h-6 w-6" />
+            </button>
             <h1 className="text-3xl font-bold tracking-tight text-[#1f1e2a] capitalize">
               {activeTab}
             </h1>
@@ -294,7 +318,7 @@ const DashboardPage = () => {
           </div>
         </header>
 
-        <main className="px-6 py-8 md:px-10 max-w-7xl mx-auto">
+        <main className="px-6 py-8 md:px-10 max-w-7xl">
           {dashboardLoading && <div className="text-center py-10">Loading dashboard...</div>}
 
           {!dashboardLoading && activeTab === "overview" && (
