@@ -5,15 +5,19 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconBolt, IconMilestone, IconRoles, IconShare, IconSpark, IconMenu } from "@/components/icons";
+import { toast } from "sonner";
 import { Identity, Role, Milestone } from "@/lib/types";
 import { CreateIdentityModal } from "@/components/modals/CreateIdentityModal";
 import { CreateRoleModal } from "@/components/modals/CreateRoleModal";
 import { AddMilestoneModal } from "@/components/modals/AddMilestoneModal";
 import { AddCredentialModal } from "@/components/modals/AddCredentialModal";
 import { CredentialsSection } from "@/components/dashboard/CredentialsSection";
+import { IdentitiesSection } from "@/components/dashboard/IdentitiesSection";
+import { CertificationsSection } from "@/components/dashboard/CertificationsSection";
 import { MintIdentityButton } from "@/components/dashboard/MintIdentityButton";
 import { ProfileSettingsForm } from "@/components/forms/ProfileSettingsForm";
 import { ProfileOnboardingModal } from "@/components/modals/ProfileOnboardingModal";
+import { ToolsProficiencySection } from "@/components/dashboard/ToolsProficiencySection";
 
 // Placeholder components for sections - normally these would be in separate files
 const OverviewSection = ({
@@ -88,7 +92,7 @@ const OverviewSection = ({
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(`${window.location.origin}/portfolio/${shareSlug}`);
-                  alert('Link copied to clipboard!');
+                  toast.success('Link copied to clipboard!');
                 }}
                 className="flex-shrink-0 px-4 py-2 bg-white text-[#ff4c2b] rounded-lg text-xs font-bold border border-[#ff4c2b]/20 hover:bg-[#ff4c2b] hover:text-white transition shadow-sm"
               >
@@ -305,44 +309,95 @@ const DashboardPage = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 transform flex-col justify-between border-r border-[#1f1e2a]/5 bg-white px-6 py-8 transition-transform duration-300 md:translate-x-0 md:static md:flex ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 left-0 z-50 w-72 transform flex-col justify-between bg-[#e5e7eb] px-6 py-8 transition-transform duration-300 md:translate-x-0 md:static md:flex ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         <div className="flex flex-col gap-10">
-          <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ff4c2b] text-white shadow-lg shadow-[#ff4c2b]/20">
-                <IconBolt className="h-6 w-6" />
-              </div>
-              <a href="/">
-                <p className="text-xl font-bold tracking-tight">myreliq</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#ff4c2b]">Dashboard</p>
-              </a>
+          <div className="flex items-center gap-3 px-2">
+            <IconBolt className="h-8 w-8 text-[#ff4c2b]" />
+            <div>
+              <p className="text-xl font-bold tracking-tight text-[#1f1e2a]">My Reliq</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#ff4c2b]">DASHBOARD</p>
             </div>
           </div>
-          <nav className="flex flex-col gap-2 font-medium text-base">
-            {["overview", "portfolio", "settings", "credentials"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => {
-                  setActiveTab(tab as any);
-                  setSidebarOpen(false);
-                }}
-                className={`group flex items-center gap-3 rounded-2xl px-4 py-3 transition-all duration-300 capitalize ${activeTab === tab
-                  ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/10"
-                  : "text-[#5d5b66] hover:bg-[#ffece8] hover:text-[#ff4c2b]"
-                  }`}
-              >
-                <span className={`h-2 w-2 rounded-full ${activeTab === tab ? "bg-[#ff4c2b]" : "bg-transparent group-hover:bg-[#ff4c2b]/50"}`}></span>
-                {tab}
-              </button>
-            ))}
+
+          <nav className="flex flex-col gap-4 font-bold text-base">
+            <button
+              onClick={() => {
+                setActiveTab("portfolio");
+                setSidebarOpen(false);
+              }}
+              className={`group flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 ${activeTab === "portfolio"
+                ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/20"
+                : "text-[#5d5b66] hover:bg-white/50"
+                }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${activeTab === "portfolio" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
+              My Portfolio
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab("overview");
+                setSidebarOpen(false);
+              }}
+              className={`group flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 ${activeTab === "overview"
+                ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/20"
+                : "text-[#5d5b66] hover:bg-white/50"
+                }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${activeTab === "overview" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
+              My Identities
+            </button>
+
+            {/* <button
+              onClick={() => {
+                setActiveTab("certifications");
+                setSidebarOpen(false);
+              }}
+              className={`group flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 ${activeTab === "certifications"
+                ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/20"
+                : "text-[#5d5b66] hover:bg-white/50"
+                }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${activeTab === "certifications" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
+              Certifications
+            </button> */}
+
+            <button
+              onClick={() => {
+                setActiveTab("credentials");
+                setSidebarOpen(false);
+              }}
+              className={`group flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 ${activeTab === "credentials"
+                ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/20"
+                : "text-[#5d5b66] hover:bg-white/50"
+                }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${activeTab === "credentials" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
+              Certificates
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab("settings");
+                setSidebarOpen(false);
+              }}
+              className={`group flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 ${activeTab === "settings"
+                ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/20"
+                : "text-[#5d5b66] hover:bg-white/50"
+                }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${activeTab === "settings" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
+              My Details
+            </button>
           </nav>
         </div>
+
         <div className="px-2">
           {/* User Mini Profile */}
           <div className="flex items-center gap-3 mb-6 p-2">
-            <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-[#5d5b66]">
+            <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center font-bold text-[#5d5b66]">
               {user?.firstName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
             </div>
             <div className="overflow-hidden">
@@ -352,7 +407,7 @@ const DashboardPage = () => {
           </div>
           <button
             onClick={() => useAuthStore.getState().logout()}
-            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-white p-2 text-xs font-bold text-[#5d5b66] transition hover:bg-red-50 hover:text-red-500 hover:border-red-200"
+            className="w-full rounded-xl bg-white p-3 text-xs font-bold text-[#5d5b66] transition hover:bg-red-50 hover:text-red-500"
           >
             Sign Out
           </button>
@@ -360,68 +415,59 @@ const DashboardPage = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 transition-all duration-500">
-        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[#1f1e2a]/5 bg-white/80 px-6 py-5 backdrop-blur-xl md:px-10">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="rounded-lg p-2 text-[#1f1e2a] hover:bg-gray-100 md:hidden"
-            >
+      <div className="flex-1 transition-all duration-500 bg-[#fef7f5] overflow-y-auto h-screen">
+        <header className="sticky top-0 z-20 flex items-center justify-between px-6 py-8 md:px-12 bg-[#fef7f5]">
+          {/* Header Content can go here if needed, or left empty/minimal */}
+          <div className="md:hidden">
+            <button onClick={() => setSidebarOpen(true)}>
               <IconMenu className="h-6 w-6" />
             </button>
-            <h1 className="text-3xl font-bold tracking-tight text-[#1f1e2a] capitalize">
-              {activeTab}
-            </h1>
-          </div>
-          <div className="flex gap-4">
-            {/* Dynamic Header Actions based on Tab */}
-            {activeTab === 'portfolio' && (
-              <a
-                href={profile?.shareSlug ? `/portfolio/${profile.shareSlug}` : '#'}
-                target="_blank"
-                className="hidden sm:flex items-center justify-center rounded-full border border-[#1f1e2a]/10 px-6 py-2.5 text-sm font-bold text-[#5d5b66] hover:bg-white transition"
-              >
-                View Public
-              </a>
-            )}
           </div>
         </header>
 
-        <main className="px-6 py-8 md:px-10 max-w-7xl">
+        <main className="px-6 md:px-12 max-w-6xl pb-20">
           {dashboardLoading && <div className="text-center py-10">Loading dashboard...</div>}
 
           {!dashboardLoading && activeTab === "overview" && (
-            <OverviewSection
-              identities={identities}
-              roles={roles}
-              milestones={milestones}
-              shareSlug={profile?.shareSlug}
-              onCompleteProfile={() => setShowOnboardingModal(true)}
-            />
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <IdentitiesSection />
+            </div>
           )}
 
           {!dashboardLoading && activeTab === "portfolio" && (
-            <PortfolioSection
-              identities={identities}
-              roles={roles}
-              milestones={milestones}
-              shareSlug={profile?.shareSlug}
-              onAddIdentity={() => setShowIdentityModal(true)}
-              onAddRole={() => setShowRoleModal(true)}
-              onAddMilestone={(roleId) => {
-                setSelectedRoleId(roleId);
-                setShowMilestoneModal(true);
-              }}
-            />
+            <div className="space-y-8">
+              <h2 className="text-3xl font-bold text-[#1f1e2a]">My Portfolio Structure</h2>
+              <p className="text-[#5d5b66]">Manage how your portfolio looks and feels.</p>
+              {/* Reusing Overview Section stats or creating new content */}
+              <OverviewSection
+                identities={identities}
+                roles={roles}
+                milestones={milestones}
+                shareSlug={profile?.shareSlug}
+                onCompleteProfile={() => setShowOnboardingModal(true)}
+              />
+            </div>
           )}
 
           {!dashboardLoading && activeTab === "settings" && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="bg-white p-8 rounded-[2rem] border border-[#1f1e2a]/5">
-                <h2 className="text-xl font-bold mb-6">Profile Settings</h2>
-                <p className="text-[#5d5b66] mb-8">Edit your personal details, bio, and social links here.</p>
+              {/* Existing Settings below, or collapsed? For now, render below as part of "My Details" */}
+              <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-[#1f1e2a]/5">
+                <h3 className="text-xl font-bold mb-8">Personal Information</h3>
                 <ProfileSettingsForm />
               </div>
+            </div>
+          )}
+
+          {!dashboardLoading && activeTab === "tools" && (
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <ToolsProficiencySection />
+            </div>
+          )}
+
+          {!dashboardLoading && activeTab === "certifications" && (
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <CertificationsSection />
             </div>
           )}
 

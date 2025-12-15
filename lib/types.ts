@@ -43,6 +43,10 @@ export type Profile = {
   };
   interests: string[];
   skills: string[];
+  tools: {
+    name: string;
+    proficiency: number;
+  }[];
   createdAt: string;
   updatedAt: string;
 };
@@ -53,6 +57,7 @@ export type Identity = {
   name: string;
   slug: string;
   description?: string;
+  profileImage?: string;
   isPrimary: boolean;
   mintAddress?: string;
   metadataUri?: string;

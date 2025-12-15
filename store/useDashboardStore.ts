@@ -8,7 +8,13 @@ interface DashboardState {
   milestones: Milestone[];
   credentials: Credential[];
 
-  activeTab: "overview" | "portfolio" | "settings" | "credentials";
+  activeTab:
+    | "overview"
+    | "portfolio"
+    | "settings"
+    | "credentials"
+    | "certifications"
+    | "tools";
   isLoading: boolean;
   error: string | null;
 

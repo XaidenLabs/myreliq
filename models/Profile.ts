@@ -24,6 +24,13 @@ const ProfileSchema = new Schema(
     interests: [{ type: String, trim: true }],
     skills: [{ type: String, trim: true }],
 
+    tools: [
+      {
+        name: { type: String, required: true },
+        proficiency: { type: Number, min: 1, max: 10, required: true },
+      },
+    ],
+
     // Kept simple embedded for now as they are less likely to be "entities" in themselves
     education: [
       {

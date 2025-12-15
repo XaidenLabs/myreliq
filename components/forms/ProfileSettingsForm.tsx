@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { IconBolt } from "@/components/icons";
+import { toast } from "sonner";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { TagInput } from "../ui/TagInput";
@@ -79,6 +81,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
             if (res.ok) {
                 setMessage("Profile updated successfully!");
                 await reloadDashboardData();
+                toast.success("Profile updated successfully");
                 if (onSuccess) onSuccess();
             } else {
                 setMessage("Failed to update profile.");
@@ -117,29 +120,32 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                     if (file.size > 5 * 1024 * 1024) {
-                                        alert("File size must be less than 5MB");
+                                        toast.error("File size must be less than 5MB");
                                         return;
                                     }
 
                                     setUploading(true);
+                                    const uploadFormData = new FormData();
+                                    uploadFormData.append("file", file);
+                                    uploadFormData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "myreliq_unsigned");
+
                                     try {
-                                        const uploadData = new FormData();
-                                        uploadData.append("file", file);
-
-                                        const res = await fetch("/api/upload", {
-                                            method: "POST",
-                                            body: uploadData
-                                        });
-
-                                        if (res.ok) {
-                                            const data = await res.json();
-                                            setFormData({ ...formData, profileImage: data.url });
+                                        const res = await fetch(
+                                            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                                            {
+                                                method: "POST",
+                                                body: uploadFormData,
+                                            }
+                                        );
+                                        const data = await res.json();
+                                        if (data.secure_url) {
+                                            setFormData({ ...formData, profileImage: data.secure_url });
                                         } else {
-                                            alert("Upload failed");
+                                            toast.error("Upload failed");
                                         }
                                     } catch (err) {
                                         console.error(err);
-                                        alert("Error uploading image");
+                                        toast.error("Error uploading image");
                                     } finally {
                                         setUploading(false);
                                     }
@@ -151,8 +157,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                               file:text-xs file:font-semibold
                               file:bg-[#fef7f5] file:text-[#ff4c2b]
                               hover:file:bg-[#ffece8]
-                              disabled:opacity-50
-                            "
+                              disabled:opacity-50"
                         />
                         {uploading && <span className="text-xs text-[#ff4c2b] font-bold animate-pulse">Uploading...</span>}
                     </div>

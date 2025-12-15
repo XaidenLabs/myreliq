@@ -98,3 +98,24 @@ export async function PUT(req: NextRequest) {
     return sendError((error as Error).message, 500);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await connectDB();
+    const userId = await getUserId();
+    if (!userId) return sendError("Unauthorized", 401);
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) return sendError("Identity ID required", 400);
+
+    const identity = await Identity.findOneAndDelete({ _id: id, userId });
+
+    if (!identity) return sendError("Identity not found", 404);
+
+    return sendSuccess({ message: "Identity deleted successfully" });
+  } catch (error) {
+    return sendError((error as Error).message, 500);
+  }
+}

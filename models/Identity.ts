@@ -12,6 +12,7 @@ const IdentitySchema = new Schema(
     name: { type: String, required: true, trim: true }, // e.g., "Full Stack Dev"
     slug: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
+    profileImage: { type: String, trim: true },
     isPrimary: { type: Boolean, default: false },
     mintAddress: { type: String, trim: true },
     metadataUri: { type: String },
