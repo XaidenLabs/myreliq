@@ -13,9 +13,22 @@ import { AddCredentialModal } from "@/components/modals/AddCredentialModal";
 import { CredentialsSection } from "@/components/dashboard/CredentialsSection";
 import { MintIdentityButton } from "@/components/dashboard/MintIdentityButton";
 import { ProfileSettingsForm } from "@/components/forms/ProfileSettingsForm";
+import { ProfileOnboardingModal } from "@/components/modals/ProfileOnboardingModal";
 
 // Placeholder components for sections - normally these would be in separate files
-const OverviewSection = ({ identities, roles, milestones, shareSlug }: { identities: Identity[], roles: Role[], milestones: Milestone[], shareSlug?: string }) => {
+const OverviewSection = ({
+  identities,
+  roles,
+  milestones,
+  shareSlug,
+  onCompleteProfile
+}: {
+  identities: Identity[],
+  roles: Role[],
+  milestones: Milestone[],
+  shareSlug?: string,
+  onCompleteProfile: () => void
+}) => {
   const stats = [
     { label: "Identities", value: identities.length, icon: IconSpark },
     { label: "Roles", value: roles.length, icon: IconRoles },
@@ -40,12 +53,60 @@ const OverviewSection = ({ identities, roles, milestones, shareSlug }: { identit
       </section>
 
       <section className="rounded-[2.5rem] bg-white p-8 shadow-sm border border-[#1f1e2a]/5">
-        <h2 className="text-2xl font-bold text-[#1f1e2a]">Public Profile</h2>
-        <p className="mt-2 text-[#5d5b66]">Your public portfolio is {shareSlug ? "active" : "not set up"}.</p>
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <IconShare className="h-5 w-5 text-[#ff4c2b]" />
+              <h2 className="text-2xl font-bold text-[#1f1e2a]">Public Profile</h2>
+            </div>
+            <p className="text-sm text-[#5d5b66]">
+              {shareSlug ? "Your portfolio is live and ready to share" : "Set up your portfolio to share with others"}
+            </p>
+          </div>
+          {shareSlug && (
+            <a
+              href={`/portfolio/${shareSlug}`}
+              target="_blank"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#ff4c2b] px-4 py-2 text-sm font-bold text-white shadow-lg shadow-[#ff4c2b]/20 hover:bg-[#e64426] transition"
+            >
+              View Live
+            </a>
+          )}
+        </div>
+
         {shareSlug && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-200 flex items-center justify-between">
-            <code className="text-sm font-semibold text-[#5d5b66]">myreliq.com/portfolio/{shareSlug}</code>
-            <a href={`/portfolio/${shareSlug}`} target="_blank" className="text-sm font-bold text-[#ff4c2b] hover:underline">View Live</a>
+          <div className="relative">
+            <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#fef7f5] to-[#ffece8] rounded-2xl border border-[#ff4c2b]/10">
+              <div className="flex-1 flex items-center gap-3 overflow-hidden">
+                <div className="flex-shrink-0 p-2 bg-white rounded-lg border border-[#1f1e2a]/5">
+                  <IconBolt className="h-4 w-4 text-[#ff4c2b]" />
+                </div>
+                <code className="text-sm font-bold text-[#1f1e2a] truncate">
+                  myreliq.com/portfolio/{shareSlug}
+                </code>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/portfolio/${shareSlug}`);
+                  alert('Link copied to clipboard!');
+                }}
+                className="flex-shrink-0 px-4 py-2 bg-white text-[#ff4c2b] rounded-lg text-xs font-bold border border-[#ff4c2b]/20 hover:bg-[#ff4c2b] hover:text-white transition shadow-sm"
+              >
+                Copy Link
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!shareSlug && (
+          <div className="mt-4 p-6 bg-[#fef7f5] rounded-2xl border border-dashed border-[#ff4c2b]/20 text-center">
+            <p className="text-sm text-[#5d5b66] mb-3">Complete your profile settings to activate your public portfolio link</p>
+            <button
+              onClick={onCompleteProfile}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff4c2b] text-white rounded-xl text-sm font-bold hover:bg-[#e64426] transition shadow-lg shadow-[#ff4c2b]/20"
+            >
+              Complete Profile
+            </button>
           </div>
         )}
       </section>
@@ -185,6 +246,7 @@ const DashboardPage = () => {
   const [showRoleModal, setShowRoleModal] = useState(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
   const [showCredentialModal, setShowCredentialModal] = useState(false);
+  const [showOnboardingModal, setShowOnboardingModal] = useState(false);
   const [selectedRoleId, setSelectedRoleId] = useState<string | undefined>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
@@ -209,6 +271,13 @@ const DashboardPage = () => {
       reloadDashboardData();
     }
   }, [reloadDashboardData, user]);
+
+  useEffect(() => {
+    // Show modal if profile is missing critical details OR shareSlug (incomplete setup)
+    if (profile && (!profile.fullName || !profile.profileImage || !profile.shareSlug || profile.fullName.trim() === "")) {
+      setShowOnboardingModal(true);
+    }
+  }, [profile]);
 
   if (authLoading || (user && dashboardLoading)) {
     return (
@@ -327,6 +396,7 @@ const DashboardPage = () => {
               roles={roles}
               milestones={milestones}
               shareSlug={profile?.shareSlug}
+              onCompleteProfile={() => setShowOnboardingModal(true)}
             />
           )}
 
@@ -386,6 +456,10 @@ const DashboardPage = () => {
       <AddCredentialModal
         isOpen={showCredentialModal}
         onClose={() => setShowCredentialModal(false)}
+      />
+      <ProfileOnboardingModal
+        isOpen={showOnboardingModal}
+        onClose={() => setShowOnboardingModal(false)}
       />
     </div>
   );

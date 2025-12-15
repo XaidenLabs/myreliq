@@ -5,7 +5,7 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { TagInput } from "../ui/TagInput";
 
-export function ProfileSettingsForm() {
+export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
     const { profile, reloadDashboardData } = useDashboardStore();
     const { user } = useAuthStore();
 
@@ -79,6 +79,7 @@ export function ProfileSettingsForm() {
             if (res.ok) {
                 setMessage("Profile updated successfully!");
                 await reloadDashboardData();
+                if (onSuccess) onSuccess();
             } else {
                 setMessage("Failed to update profile.");
             }

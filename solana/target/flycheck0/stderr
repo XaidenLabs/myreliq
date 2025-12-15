@@ -2,8 +2,8 @@ warning: virtual workspace defaulting to `resolver = "1"` despite one or more wo
 note: to keep the current resolver, specify `workspace.resolver = "1"` in the workspace root's manifest
 note: to use the edition 2021 resolver, specify `workspace.resolver = "2"` in the workspace root's manifest
 note: for more details see https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
-   1.031271971s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint: fingerprint error for portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)/Check { test: false }/TargetInner { ..: lib_target("portfolio", ["cdylib", "lib"], "/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio/src/lib.rs", Edition2021) }
-   1.031347376s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/target/debug/.fingerprint/portfolio-b540cb18662c4f9b/lib-portfolio`
+   0.587863034s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint: fingerprint error for portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)/Check { test: false }/TargetInner { ..: lib_target("portfolio", ["cdylib", "lib"], "/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio/src/lib.rs", Edition2021) }
+   0.587940284s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/target/debug/.fingerprint/portfolio-b540cb18662c4f9b/lib-portfolio`
 
 Caused by:
     No such file or directory (os error 2)
@@ -28,8 +28,8 @@ Stack backtrace:
   16: std::rt::lang_start_internal
   17: _main
   18: <unknown>
-   1.105773846s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint: fingerprint error for portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)/Check { test: true }/TargetInner { ..: lib_target("portfolio", ["cdylib", "lib"], "/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio/src/lib.rs", Edition2021) }
-   1.105832433s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/target/debug/.fingerprint/portfolio-a08e69802a23ab85/test-lib-portfolio`
+   0.645300838s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint: fingerprint error for portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)/Check { test: true }/TargetInner { ..: lib_target("portfolio", ["cdylib", "lib"], "/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio/src/lib.rs", Edition2021) }
+   0.645357038s  INFO prepare_target{force=false package_id=portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio) target="portfolio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/target/debug/.fingerprint/portfolio-a08e69802a23ab85/test-lib-portfolio`
 
 Caused by:
     No such file or directory (os error 2)
@@ -55,6 +55,6 @@ Stack backtrace:
   17: _main
   18: <unknown>
     Checking portfolio v0.1.0 (/Users/xaidenlabs/Desktop/africa-research-base/myreliq/solana/programs/portfolio)
-error: could not compile `portfolio` (lib test) due to 18 previous errors; 16 warnings emitted
-warning: build failed, waiting for other jobs to finish...
 error: could not compile `portfolio` (lib) due to 18 previous errors; 16 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `portfolio` (lib test) due to 18 previous errors; 16 warnings emitted

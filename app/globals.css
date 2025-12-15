@@ -43,3 +43,14 @@ body {
 @utility btn-outline {
   @apply border border-gray-400 text-foreground px-6 py-2.5 rounded-full font-medium transition-colors hover:border-gray-900;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
