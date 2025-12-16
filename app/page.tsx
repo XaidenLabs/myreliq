@@ -10,7 +10,7 @@ import { TrustedSection } from "@/components/sections/Trusted";
 
 export default function Home() {
   return (
-    <div className="bg-[#fef7f5] text-[#1f1e2a]">
+    <div className="bg-[#fef7f5] dark:bg-[#1f1e2a] text-[#1f1e2a] dark:text-white transition-colors duration-500">
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 pb-16 pt-8 sm:px-6 lg:px-8">
         <Header />
         <main className="flex flex-1 flex-col">

@@ -34,7 +34,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await fetch("/api/auth/logout", { method: "POST" });
       set({ user: null });
-      window.location.href = "/auth/login";
+      window.location.href = "/";
     } catch (error) {
       console.error("Logout failed", error);
     }

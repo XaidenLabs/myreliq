@@ -36,7 +36,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   milestones: [],
   credentials: [],
   activeTab: "portfolio",
-  isLoading: false,
+  isLoading: true,
   error: null,
 
   setActiveTab: (tab) => set({ activeTab: tab }),

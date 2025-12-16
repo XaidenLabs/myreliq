@@ -104,13 +104,13 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
             {/* Basic Details */}
             <div className="space-y-6">
-                <h3 className="text-lg font-bold text-[#1f1e2a] border-b border-[#1f1e2a]/5 pb-2">Basic Info</h3>
+                <h3 className="text-lg font-bold text-[#1f1e2a] dark:text-white border-b border-[#1f1e2a]/5 pb-2">Basic Info</h3>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Profile Image</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Profile Image</label>
                     <div className="flex items-center gap-4">
                         {formData.profileImage && (
-                            <img src={formData.profileImage} alt="Profile" className="w-12 h-12 rounded-full object-cover border border-[#1f1e2a]/10" />
+                            <img src={formData.profileImage} alt="Profile" className="w-12 h-12 rounded-full object-cover border border-[#1f1e2a]/10 dark:border-white/10" />
                         )}
                         <input
                             type="file"
@@ -155,8 +155,8 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                               file:mr-4 file:py-2 file:px-4
                               file:rounded-full file:border-0
                               file:text-xs file:font-semibold
-                              file:bg-[#fef7f5] file:text-[#ff4c2b]
-                              hover:file:bg-[#ffece8]
+                              file:bg-[#fef7f5] dark:file:bg-[#2a2935] file:text-[#ff4c2b]
+                              hover:file:bg-[#ffece8] dark:hover:file:bg-[#ffece8]/10
                               disabled:opacity-50"
                         />
                         {uploading && <span className="text-xs text-[#ff4c2b] font-bold animate-pulse">Uploading...</span>}
@@ -165,21 +165,21 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Full Name</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Full Name</label>
                         <input
                             type="text"
                             required
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-semibold text-[#1f1e2a] focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-semibold text-[#1f1e2a] dark:text-white focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
                             value={formData.fullName}
                             onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Headline</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Headline</label>
                         <input
                             type="text"
                             placeholder="e.g. Senior Frontend Engineer"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-semibold text-[#1f1e2a] focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-semibold text-[#1f1e2a] dark:text-white focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
                             value={formData.headline}
                             onChange={e => setFormData({ ...formData, headline: e.target.value })}
                         />
@@ -187,11 +187,11 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                 </div>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Bio</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Bio</label>
                     <textarea
                         rows={4}
                         placeholder="Tell your story..."
-                        className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium text-[#1f1e2a] focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
+                        className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
                         value={formData.bio}
                         onChange={e => setFormData({ ...formData, bio: e.target.value })}
                     />
@@ -199,21 +199,21 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Location</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Location</label>
                         <input
                             type="text"
                             placeholder="e.g. Lagos, Nigeria"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
                             value={formData.location}
                             onChange={e => setFormData({ ...formData, location: e.target.value })}
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Website</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Website</label>
                         <input
                             type="url"
                             placeholder="https://..."
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
                             value={formData.website}
                             onChange={e => setFormData({ ...formData, website: e.target.value })}
                         />
@@ -223,7 +223,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
             {/* Skills & Interests */}
             <div className="space-y-6">
-                <h3 className="text-lg font-bold text-[#1f1e2a] border-b border-[#1f1e2a]/5 pb-2">Skills & Interests</h3>
+                <h3 className="text-lg font-bold text-[#1f1e2a] dark:text-white border-b border-[#1f1e2a]/5 pb-2">Skills & Interests</h3>
                 <TagInput
                     label="Skill Set"
                     tags={formData.skills}
@@ -241,31 +241,31 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
             {/* Education */}
             <div className="space-y-6">
                 <div className="flex items-center justify-between border-b border-[#1f1e2a]/5 pb-2">
-                    <h3 className="text-lg font-bold text-[#1f1e2a]">Education</h3>
+                    <h3 className="text-lg font-bold text-[#1f1e2a] dark:text-white">Education</h3>
                     <button type="button" onClick={addEducation} className="text-sm font-bold text-[#ff4c2b] hover:underline">+ Add School</button>
                 </div>
 
                 {formData.education.map((edu, index) => (
-                    <div key={index} className="p-4 rounded-xl bg-gray-50 border border-[#1f1e2a]/5 relative group">
+                    <div key={index} className="p-4 rounded-xl bg-gray-50 dark:bg-[#1f1e2a] border border-[#1f1e2a]/5 dark:border-white/10 relative group">
                         <button type="button" onClick={() => removeEducation(index)} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xs font-bold opacity-0 group-hover:opacity-100 transition">Remove</button>
                         <div className="grid md:grid-cols-2 gap-4 mb-3">
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] mb-1">School / University</label>
-                                <input type="text" className="w-full rounded-lg border border-[#1f1e2a]/10 p-2 text-sm font-bold" value={edu.school} onChange={e => updateEducation(index, "school", e.target.value)} />
+                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-1">School / University</label>
+                                <input type="text" className="w-full rounded-lg border border-[#1f1e2a]/10 dark:border-white/10 bg-white dark:bg-[#2a2935] p-2 text-sm font-bold text-[#1f1e2a] dark:text-white" value={edu.school} onChange={e => updateEducation(index, "school", e.target.value)} />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] mb-1">Degree</label>
-                                <input type="text" className="w-full rounded-lg border border-[#1f1e2a]/10 p-2 text-sm font-bold" value={edu.degree} onChange={e => updateEducation(index, "degree", e.target.value)} />
+                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-1">Degree</label>
+                                <input type="text" className="w-full rounded-lg border border-[#1f1e2a]/10 dark:border-white/10 bg-white dark:bg-[#2a2935] p-2 text-sm font-bold text-[#1f1e2a] dark:text-white" value={edu.degree} onChange={e => updateEducation(index, "degree", e.target.value)} />
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] mb-1">Start Date</label>
-                                <input type="text" placeholder="e.g 2020" className="w-full rounded-lg border border-[#1f1e2a]/10 p-2 text-sm" value={edu.startDate || ""} onChange={e => updateEducation(index, "startDate", e.target.value)} />
+                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-1">Start Date</label>
+                                <input type="text" placeholder="e.g 2020" className="w-full rounded-lg border border-[#1f1e2a]/10 dark:border-white/10 bg-white dark:bg-[#2a2935] p-2 text-sm text-[#1f1e2a] dark:text-white" value={edu.startDate || ""} onChange={e => updateEducation(index, "startDate", e.target.value)} />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] mb-1">End Date</label>
-                                <input type="text" placeholder="e.g 2024" className="w-full rounded-lg border border-[#1f1e2a]/10 p-2 text-sm" value={edu.endDate || ""} onChange={e => updateEducation(index, "endDate", e.target.value)} />
+                                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-1">End Date</label>
+                                <input type="text" placeholder="e.g 2024" className="w-full rounded-lg border border-[#1f1e2a]/10 dark:border-white/10 bg-white dark:bg-[#2a2935] p-2 text-sm text-[#1f1e2a] dark:text-white" value={edu.endDate || ""} onChange={e => updateEducation(index, "endDate", e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -275,34 +275,34 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
             {/* Socials */}
             <div className="space-y-6">
-                <h3 className="text-lg font-bold text-[#1f1e2a] border-b border-[#1f1e2a]/5 pb-2">Social Links</h3>
+                <h3 className="text-lg font-bold text-[#1f1e2a] dark:text-white border-b border-[#1f1e2a]/5 pb-2">Social Links</h3>
                 <div className="grid md:grid-cols-3 gap-6">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">GitHub</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">GitHub</label>
                         <input
                             type="text"
                             placeholder="username"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
                             value={formData.github}
                             onChange={e => setFormData({ ...formData, github: e.target.value })}
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">Twitter / X</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Twitter / X</label>
                         <input
                             type="text"
                             placeholder="username"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
                             value={formData.twitter}
                             onChange={e => setFormData({ ...formData, twitter: e.target.value })}
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">LinkedIn</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">LinkedIn</label>
                         <input
                             type="text"
                             placeholder="username"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium"
+                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
                             value={formData.linkedin}
                             onChange={e => setFormData({ ...formData, linkedin: e.target.value })}
                         />

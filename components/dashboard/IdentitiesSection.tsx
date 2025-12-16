@@ -49,9 +49,9 @@ export function IdentitiesSection() {
     };
 
     return (
-        <section className="bg-[#fef7f5] rounded-[2.5rem] p-8 md:p-12 min-h-[600px]">
-            <h2 className="text-3xl font-bold text-[#1f1e2a] mb-2">My Identities</h2>
-            <p className="text-lg font-medium text-[#1f1e2a] mb-12">Varying Versions of You</p>
+        <section className="bg-[#fef7f5] dark:bg-transparent rounded-[2.5rem] p-8 md:p-12 min-h-[600px]">
+            <h2 className="text-3xl font-bold text-[#1f1e2a] dark:text-white mb-2">My Identities</h2>
+            <p className="text-lg font-medium text-[#1f1e2a] dark:text-gray-400 mb-12">Varying Versions of You</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 auto-rows-fr">
                 {/* Existing Identities */}
@@ -69,15 +69,15 @@ export function IdentitiesSection() {
                 {/* Add New Identity Card */}
                 <button
                     onClick={handleCreate}
-                    className="flex flex-col items-center justify-center p-8 bg-white border border-dashed border-[#b0b0bb] rounded-[2.5rem] aspect-[3/4] w-full hover:border-[#ff4c2b] hover:bg-[#ff4c2b]/5 transition-all duration-300 group shadow-sm hover:shadow-md"
+                    className="flex flex-col items-center justify-center p-8 bg-white dark:bg-[#1f1e2a]/50 border border-dashed border-[#b0b0bb] dark:border-white/20 rounded-[2.5rem] aspect-[3/4] w-full hover:border-[#ff4c2b] hover:bg-[#ff4c2b]/5 dark:hover:bg-[#ff4c2b]/10 transition-all duration-300 group shadow-sm hover:shadow-md"
                 >
-                    <div className="w-20 h-20 rounded-full bg-[#fef7f5] flex items-center justify-center mb-6 group-hover:bg-[#ff4c2b] transition-all duration-300 shadow-inner group-hover:shadow-lg group-hover:shadow-[#ff4c2b]/30">
+                    <div className="w-20 h-20 rounded-full bg-[#fef7f5] dark:bg-white/10 flex items-center justify-center mb-6 group-hover:bg-[#ff4c2b] transition-all duration-300 shadow-inner group-hover:shadow-lg group-hover:shadow-[#ff4c2b]/30">
                         <span className="text-4xl text-[#ff4c2b] font-light group-hover:text-white transition-colors duration-300">+</span>
                     </div>
-                    <span className="text-[#1f1e2a] font-bold text-lg group-hover:text-[#ff4c2b] transition-colors">
+                    <span className="text-[#1f1e2a] dark:text-white font-bold text-lg group-hover:text-[#ff4c2b] transition-colors">
                         Add New Identity
                     </span>
-                    <span className="text-[#7d7b8a] text-sm mt-2 text-center max-w-[80%] group-hover:text-[#ff4c2b]/70 transition-colors">
+                    <span className="text-[#7d7b8a] dark:text-gray-400 text-sm mt-2 text-center max-w-[80%] group-hover:text-[#ff4c2b]/70 transition-colors">
                         Create a new persona for your portfolio
                     </span>
                 </button>
@@ -105,7 +105,7 @@ function IdentityCard({ identity, onDelete, onEdit, onClick, loading }: { identi
             className="group relative rounded-[2.5rem] overflow-hidden cursor-pointer w-full aspect-[3/4] transition-all duration-500 hover:-translate-y-2"
         >
             {/* Main Container with Border & Shadow */}
-            <div className="absolute inset-0 rounded-[2.5rem] bg-white border border-white/20 shadow-xl group-hover:shadow-2xl group-hover:shadow-[#ff4c2b]/20 transition-all duration-500 overflow-hidden z-0">
+            <div className="absolute inset-0 rounded-[2.5rem] bg-white dark:bg-[#1f1e2a] border border-white/20 dark:border-white/10 shadow-xl group-hover:shadow-2xl group-hover:shadow-[#ff4c2b]/20 transition-all duration-500 overflow-hidden z-0">
                 {/* Full Background Image */}
                 <div className="absolute inset-0">
                     {identity.profileImage ? (
@@ -115,7 +115,7 @@ function IdentityCard({ identity, onDelete, onEdit, onClick, loading }: { identi
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                     ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#fef7f5] to-[#ebd7d2] flex items-center justify-center">
+                        <div className="w-full h-full bg-gradient-to-br from-[#fef7f5] to-[#ebd7d2] dark:from-[#2a2935] dark:to-[#1f1e2a] flex items-center justify-center">
                             <span className="text-9xl font-black text-[#1f1e2a]/5 select-none">{identity.name.charAt(0)}</span>
                         </div>
                     )}

@@ -6,6 +6,7 @@ import { GhostButton, PrimaryButton } from "../ui/Buttons";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect, useState } from "react";
 import { IconMenu } from "@/components/icons";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 export const Header = () => {
   const { user, fetchUser } = useAuthStore();
@@ -16,7 +17,7 @@ export const Header = () => {
   }, [fetchUser]);
 
   return (
-    <header className="sticky top-4 z-50 flex flex-wrap items-center justify-between gap-4 rounded-full border border-[#1f1e2a]/10 bg-white/80 px-6 py-4 backdrop-blur-md shadow-sm transition-all" id="top">
+    <header className="sticky top-4 z-50 flex flex-wrap items-center justify-between gap-4 rounded-full border border-[#1f1e2a]/10 dark:border-white/10 bg-white/80 dark:bg-[#1f1e2a]/80 px-6 py-4 backdrop-blur-md shadow-sm transition-all text-[#1f1e2a] dark:text-white" id="top">
       <div className="flex items-center gap-3">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <div className="flex items-center justify-center text-[#ff4c2b]">
@@ -31,11 +32,11 @@ export const Header = () => {
         </Link>
       </div>
 
-      <nav className="hidden flex-1 justify-center gap-8 text-sm font-semibold text-[#4c4b59] md:flex">
+      <nav className="hidden flex-1 justify-center gap-8 text-sm font-semibold text-[#4c4b59] dark:text-gray-300 md:flex">
         {navLinks.map((link) => (
           <Link
             key={link.label}
-            className="transition hover:text-[#1f1e2a]"
+            className="transition hover:text-[#1f1e2a] dark:hover:text-white"
             href={link.href}
             target={link.external ? "_blank" : undefined}
             rel={link.external ? "noreferrer" : undefined}
@@ -46,22 +47,23 @@ export const Header = () => {
       </nav>
 
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         {user ? (
-          <Link href="/dashboard" className="hidden md:flex items-center gap-2 rounded-full border border-[#1f1e2a]/10 bg-white p-1 pr-4 transition-all hover:bg-gray-50">
+          <Link href="/dashboard" className="hidden md:flex items-center gap-2 rounded-full border border-[#1f1e2a]/10 dark:border-white/10 bg-white dark:bg-[#2a2935] p-1 pr-4 transition-all hover:bg-gray-50 dark:hover:bg-gray-800">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#ff4c2b] text-sm font-bold text-white">
               {user.firstName ? user.firstName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
             </div>
-            <span className="text-sm font-bold text-[#1f1e2a]">Dashboard</span>
+            <span className="text-sm font-bold text-[#1f1e2a] dark:text-white">Dashboard</span>
           </Link>
         ) : (
           <div className="hidden md:flex items-center gap-3">
-            <GhostButton label="Log in" href="/auth/login" className="!border-[#1f1e2a]/20 !text-[#1f1e2a] hover:!bg-[#1f1e2a]/5 px-6" />
+            <GhostButton label="Log in" href="/auth/login" className="!border-[#1f1e2a]/20 dark:!border-white/20 !text-[#1f1e2a] dark:!text-white hover:!bg-[#1f1e2a]/5 dark:hover:!bg-white/10 px-6" />
             <PrimaryButton label="Create Portfolio" href="/auth/register" />
           </div>
         )}
 
         <button
-          className="rounded-full bg-white p-2 text-[#1f1e2a] shadow-sm md:hidden"
+          className="rounded-full bg-white dark:bg-[#2a2935] p-2 text-[#1f1e2a] dark:text-white shadow-sm md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? (
@@ -73,12 +75,12 @@ export const Header = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="absolute left-0 top-full mt-2 w-full rounded-3xl border border-[#1f1e2a]/10 bg-white p-6 shadow-xl md:hidden flex flex-col gap-6 animate-in slide-in-from-top-4 fade-in">
+        <div className="absolute left-0 top-full mt-2 w-full rounded-3xl border border-[#1f1e2a]/10 dark:border-white/10 bg-white dark:bg-[#1f1e2a] p-6 shadow-xl md:hidden flex flex-col gap-6 animate-in slide-in-from-top-4 fade-in">
           <nav className="flex flex-col gap-4 text-center">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
-                className="text-lg font-bold text-[#4c4b59] hover:text-[#ff4c2b]"
+                className="text-lg font-bold text-[#4c4b59] dark:text-gray-300 hover:text-[#ff4c2b]"
                 href={link.href}
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noreferrer" : undefined}
@@ -98,7 +100,7 @@ export const Header = () => {
               </Link>
             ) : (
               <>
-                <GhostButton label="Log in" href="/auth/login" className="!border-[#1f1e2a]/20 !text-[#1f1e2a] hover:!bg-[#1f1e2a]/5 w-full justify-center" />
+                <GhostButton label="Log in" href="/auth/login" className="!border-[#1f1e2a]/20 dark:!border-white/20 !text-[#1f1e2a] dark:!text-white hover:!bg-[#1f1e2a]/5 dark:hover:!bg-white/10 w-full justify-center" />
                 <PrimaryButton label="Create Portfolio" href="/auth/register" className="w-full justify-center" />
               </>
             )}

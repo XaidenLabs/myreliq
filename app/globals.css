@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #fef7f5;
   --foreground: #1f1e2a;
@@ -14,6 +16,17 @@
   --color-card: var(--card-bg);
   --font-sans: var(--font-brand);
   --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  .dark {
+    --background: #1f1e2a;
+    --foreground: #fef7f5;
+    --card-bg: #2a2935;
+    /* In dark mode, accent stays impactful or shifts slightly if needed.
+       Keeping it consistent for brand identity. */
+    --accent: #ff4c2b; 
+  }
 }
 
 body {

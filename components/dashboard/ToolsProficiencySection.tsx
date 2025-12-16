@@ -78,12 +78,12 @@ export function ToolsProficiencySection() {
     };
 
     return (
-        <section className="bg-[#fef7f5] rounded-[2.5rem] p-8 md:p-12 min-h-[600px]">
-            <h2 className="text-3xl font-bold text-[#1f1e2a] mb-12">My Details</h2>
+        <section className="bg-[#fef7f5] dark:bg-transparent rounded-[2.5rem] p-8 md:p-12 min-h-[600px]">
+            <h2 className="text-3xl font-bold text-[#1f1e2a] dark:text-white mb-12">My Details</h2>
 
             {/* Tools Header */}
             <div className="flex items-center justify-between mb-8">
-                <h3 className="text-xl font-bold text-[#1f1e2a] flex items-center gap-2">
+                <h3 className="text-xl font-bold text-[#1f1e2a] dark:text-white flex items-center gap-2">
                     Tools & Proficiency
                 </h3>
                 {/* Visual cue that hitting Enter or rating adds it? Or just inline form */}
@@ -98,7 +98,7 @@ export function ToolsProficiencySection() {
             </div>
 
             {/* Column Headers */}
-            <div className="grid grid-cols-2 gap-8 mb-4 px-4 text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a]">
+            <div className="grid grid-cols-2 gap-8 mb-4 px-4 text-[10px] font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400">
                 <div>Tool</div>
                 <div>Rate Your Proficiency ( Scale of 1 to 10 )</div>
             </div>
@@ -106,8 +106,8 @@ export function ToolsProficiencySection() {
             {/* Existing Tools List */}
             <div className="space-y-4 mb-4">
                 {profile?.tools?.map((tool, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-8 items-center bg-white p-4 rounded-xl border border-[#1f1e2a]/5 group relative hover:shadow-md transition-shadow">
-                        <span className="font-bold text-[#1f1e2a]">{tool.name}</span>
+                    <div key={index} className="grid grid-cols-2 gap-8 items-center bg-white dark:bg-[#1f1e2a] p-4 rounded-xl border border-[#1f1e2a]/5 dark:border-white/10 group relative hover:shadow-md transition-shadow">
+                        <span className="font-bold text-[#1f1e2a] dark:text-white">{tool.name}</span>
                         <div className="flex items-center justify-between">
                             <StarRating
                                 rating={tool.proficiency}
@@ -133,7 +133,7 @@ export function ToolsProficiencySection() {
                     onChange={(e) => setNewTool(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleAddTool()}
                     placeholder="e.g. React, Figma, Python..."
-                    className="w-full h-12 rounded-full bg-[#e5e7eb] px-6 font-bold text-[#1f1e2a] focus:outline-none focus:ring-2 focus:ring-[#ff4c2b]/20"
+                    className="w-full h-12 rounded-full bg-[#e5e7eb] dark:bg-[#2a2935] px-6 font-bold text-[#1f1e2a] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#ff4c2b]/20"
                 />
 
                 <div className="flex items-center gap-4">

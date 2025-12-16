@@ -14,10 +14,10 @@ export const HeroSection = () => (
     <p className="rounded-full border border-[#1f1e2a]/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#f2512e]">
       {heroCopy.badge}
     </p>
-    <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-7xl font-sans tracking-tight">
+    <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-7xl font-sans tracking-tight text-[#1f1e2a] dark:text-white">
       {heroCopy.title}
     </h1>
-    <p className="max-w-2xl text-base text-[#5d5b66] sm:text-lg">{heroCopy.description}</p>
+    <p className="max-w-2xl text-base text-[#5d5b66] dark:text-gray-400 sm:text-lg">{heroCopy.description}</p>
     <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
       <PrimaryButton label={heroCopy.primaryCta} href={heroCopy.primaryHref} />
       <GhostButton label={heroCopy.secondaryCta} href={heroCopy.secondaryHref} />
@@ -29,9 +29,9 @@ export const HeroSection = () => (
         return (
           <div
             key={item.label}
-            className="flex items-center gap-2 rounded-full border border-dashed border-[#1f1e2a]/20 px-4 py-2"
+            className="flex items-center gap-2 rounded-full border border-dashed border-[#1f1e2a]/20 dark:border-white/20 px-4 py-2"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#ff4521] shadow-[0_2px_10px_rgba(255,69,33,0.15)] overflow-hidden">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white dark:bg-[#2a2935] text-[#ff4521] shadow-[0_2px_10px_rgba(255,69,33,0.15)] overflow-hidden">
 
               <Icon className="h-4 w-4 relative z-10" />
             </span>

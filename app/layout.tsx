@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 };
 
 import { SolanaProvider } from "@/components/providers/SolanaProvider";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "sonner";
 
 export default function RootLayout({
@@ -30,8 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${brandFont.variable} ${geistMono.variable} antialiased`}>
-        <SolanaProvider>{children}</SolanaProvider>
-        <Toaster richColors duration={3000} position="top-center" />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <SolanaProvider>{children}</SolanaProvider>
+          <Toaster richColors duration={3000} position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -116,17 +116,17 @@ export function CreateIdentityModal({ isOpen, onClose, identityToEdit }: CreateI
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl animate-in fade-in zoom-in duration-200">
-                <h2 className="text-2xl font-bold text-[#1f1e2a] mb-2">
+            <div className="w-full max-w-md bg-white dark:bg-[#2a2935] rounded-[2.5rem] p-8 shadow-2xl animate-in fade-in zoom-in duration-200">
+                <h2 className="text-2xl font-bold text-[#1f1e2a] dark:text-white mb-2">
                     {identityToEdit ? "Edit Identity" : "Create New Identity"}
                 </h2>
-                <p className="text-sm text-[#5d5b66] mb-8">Defines a persona (e.g., "Full Stack Dev").</p>
+                <p className="text-sm text-[#5d5b66] dark:text-gray-400 mb-8">Defines a persona (e.g., "Full Stack Dev").</p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Image Upload */}
                     <div className="flex justify-center">
                         <div className="relative group">
-                            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#1f1e2a]/10 bg-gray-100">
+                            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#1f1e2a]/10 dark:border-white/10 bg-gray-100 dark:bg-white/5">
                                 {formData.profileImage ? (
                                     <img src={formData.profileImage} alt="Identity" className="w-full h-full object-cover" />
                                 ) : (
@@ -145,27 +145,27 @@ export function CreateIdentityModal({ isOpen, onClose, identityToEdit }: CreateI
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">
                             Identity Name
                         </label>
                         <input
                             type="text"
                             required
                             placeholder="e.g. Product Designer"
-                            className="w-full rounded-2xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-semibold text-[#1f1e2a] focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
+                            className="w-full rounded-2xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-semibold text-[#1f1e2a] dark:text-white focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] mb-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">
                             Short Description
                         </label>
                         <textarea
                             rows={3}
                             placeholder="Briefly describe this professional persona..."
-                            className="w-full rounded-2xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium text-[#1f1e2a] focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
+                            className="w-full rounded-2xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                         />
