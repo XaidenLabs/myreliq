@@ -25,14 +25,23 @@ export const hashPassword = async (password: string) =>
 export const verifyPassword = async (hash: string, password: string) =>
   argon2.verify(hash, password);
 
-const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
+const hashToken = (token: string) =>
+  createHash("sha256").update(token).digest("hex");
 
-export const generateAccessToken = (payload: { userId: string; role: UserRole }) =>
-  jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_TTL_SECONDS });
+export const generateAccessToken = (payload: {
+  userId: string;
+  role: UserRole;
+}) =>
+  jwt.sign(payload, ACCESS_TOKEN_SECRET, {
+    expiresIn: ACCESS_TOKEN_TTL_SECONDS,
+  });
 
 export const verifyAccessToken = (token: string) => {
   try {
-    return jwt.verify(token, ACCESS_TOKEN_SECRET) as { userId: string; role: UserRole };
+    return jwt.verify(token, ACCESS_TOKEN_SECRET) as {
+      userId: string;
+      role: UserRole;
+    };
   } catch {
     return null;
   }
@@ -46,18 +55,18 @@ export const setAuthCookies = (
   }: {
     accessToken: string;
     refreshToken: string;
-  },
+  }
 ) => {
   response.cookies.set(ACCESS_COOKIE_NAME, accessToken, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: ACCESS_TOKEN_TTL_SECONDS,
   });
   response.cookies.set(REFRESH_COOKIE_NAME, refreshToken, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: REFRESH_TOKEN_TTL_MS / 1000,
@@ -67,7 +76,7 @@ export const setAuthCookies = (
 export const clearAuthCookies = (response: NextResponse) => {
   response.cookies.set(ACCESS_COOKIE_NAME, "", {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: 0,
@@ -109,7 +118,10 @@ export const rotateSession = async ({
 }) => {
   await connectDB();
   const hashed = hashToken(refreshToken);
-  const session = await SessionModel.findOne({ refreshTokenHash: hashed, revokedAt: null });
+  const session = await SessionModel.findOne({
+    refreshTokenHash: hashed,
+    revokedAt: null,
+  });
   if (!session) {
     return null;
   }
@@ -127,7 +139,7 @@ export const revokeSessionByToken = async (refreshToken: string) => {
   const hashed = hashToken(refreshToken);
   await SessionModel.updateOne(
     { refreshTokenHash: hashed, revokedAt: null },
-    { revokedAt: new Date() },
+    { revokedAt: new Date() }
   );
 };
 

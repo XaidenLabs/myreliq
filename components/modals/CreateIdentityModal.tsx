@@ -54,9 +54,12 @@ export function CreateIdentityModal({ isOpen, onClose, identityToEdit }: CreateI
             }
 
             setLoading(true);
+            const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "myreliq_unsigned";
+            console.log("DEBUG: Using Cloudinary Preset:", uploadPreset);
+
             const uploadFormData = new FormData();
             uploadFormData.append("file", file);
-            uploadFormData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "myreliq_unsigned");
+            uploadFormData.append("upload_preset", uploadPreset);
 
             try {
                 const res = await fetch(
@@ -71,8 +74,8 @@ export function CreateIdentityModal({ isOpen, onClose, identityToEdit }: CreateI
                     setFormData(prev => ({ ...prev, profileImage: data.secure_url }));
                     toast.success("Image uploaded successfully");
                 } else {
-                    console.error("Cloudinary Upload Error:", data);
-                    toast.error(`Upload failed: ${data.error?.message || "Unknown error"}`);
+                    console.error("Cloudinary Upload Error:", JSON.stringify(data, null, 2));
+                    toast.error(`Upload failed: ${data.error?.message || "Check console for details"}`);
                 }
             } catch (err) {
                 console.error(err);
