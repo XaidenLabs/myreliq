@@ -1,4 +1,5 @@
 import { IconBolt } from "@/components/icons";
+import { Metadata } from 'next';
 import { connectDB } from "@/lib/db";
 import ProfileModel from "@/models/Profile";
 import IdentityModel from "@/models/Identity";
@@ -37,6 +38,41 @@ async function getPortfolioData(slug: string) {
   const credentials: Credential[] = JSON.parse(JSON.stringify(credentialsDoc.map(d => ({ ...d, id: d._id }))));
 
   return { profile, identities, roles, milestones, credentials };
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  await connectDB();
+  const profile = await ProfileModel.findOne({ shareSlug: slug }).lean();
+
+  if (!profile) {
+    return {
+      title: 'Profile Not Found | Myreliq',
+      description: 'The requested profile could not be found.',
+    };
+  }
+
+  const title = `${profile.fullName} | Portfolio | Myreliq`;
+  const description = profile.bio ? profile.bio.substring(0, 160) : `Check out ${profile.fullName}'s professional portfolio on Myreliq.`;
+  const images = profile.profileImage ? [{ url: profile.profileImage }] : [];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images,
+      type: 'profile',
+      url: `https://myreliq.com/portfolio/${slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images,
+    },
+  };
 }
 
 export default async function PortfolioPage({ params }: { params: Promise<{ slug: string }> }) {
