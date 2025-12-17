@@ -1,8 +1,7 @@
-```typescript
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://www.myreliq.fun'; // Replace with actual domain
+  const baseUrl = "https://www.myreliq.fun";
 
   return {
     rules: {
