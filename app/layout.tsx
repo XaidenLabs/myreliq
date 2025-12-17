@@ -20,6 +20,17 @@ export const metadata: Metadata = {
     template: "%s | Myreliq"
   },
   description: "Bring your entire proof-of-work journey into one shareable portfolio in minutes.",
+  keywords: [
+    "Myreliq", "Portfolio", "Proof of Work", "Career Journey", "CV", "Resume",
+    "Web3 Portfolio", "Blockchain Career", "Crypto Resume", "Digital Identity", "On-chain Resume",
+    "Solana", "Solana Portfolio", "Solana Ecosystem", "Phantom Wallet", "Solflare", "Wallet Connect",
+    "Developer Portfolio", "Designer Portfolio", "Professional Profile", "Software Engineer",
+    "Product Designer", "Product Manager", "Africa Tech", "Tech Talent",
+    "Web3 Identity", "Decentralized Identity", "NFT", "Blockchain", "Crypto", "DApp", "Smart Contracts", "DeFi",
+    "Job Search", "Hiring", "Talent", "Recruitment", "Remote Work", "Tech Jobs", "Blockchain Jobs", "Crypto Jobs", "Freelance",
+    "Achievements", "Skills", "Verification", "Trust", "Professional Network", "Career Growth",
+    "Work History", "Projects", "Case Studies", "Startup", "Innovation", "Technology"
+  ],
   openGraph: {
     type: 'website',
     locale: 'en_US',
