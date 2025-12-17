@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://myreliq.com'),
+  metadataBase: new URL('https://www.myreliq.fun'),
   title: {
     default: "Myreliq | Proof-of-Work Portfolio",
     template: "%s | Myreliq"
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://myreliq.com',
+    url: 'https://www.myreliq.fun',
     siteName: 'Myreliq',
     title: 'Myreliq | Proof-of-Work Portfolio',
     description: 'Bring your entire proof-of-work journey into one shareable portfolio in minutes.',

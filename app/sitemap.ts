@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/db";
 import ProfileModel from "@/models/Profile";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://myreliq.com"; // Replace with actual domain
+  const baseUrl = "https://www.myreliq.fun"; // Replace with actual domain
 
   // 1. Static Routes
   const routes = ["", "/auth/login", "/auth/register"].map((route) => ({
