@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, ReactNode } from "react";
 import { IconBolt } from "@/components/icons";
 
 interface TagInputProps {
-    label: string;
+    label: string | ReactNode;
     tags: string[];
     onChange: (tags: string[]) => void;
     placeholder?: string;
