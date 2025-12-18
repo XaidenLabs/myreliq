@@ -70,11 +70,6 @@ export const solutionCards = [
     description: "Every sprint, win, and artifact plotted on a clear journey.",
   },
   {
-    title: "Add Roles & Projects",
-    description:
-      "Document what you shipped, who you built with, and attach proof.",
-  },
-  {
     title: "One Shareable Link",
     description:
       "Send a single Myreliq link to mentors, recruiters, or your cohort.",

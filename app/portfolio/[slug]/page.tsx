@@ -109,7 +109,10 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
 
             {/* Name and Contact Info */}
             <div className="flex-1">
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 print:text-3xl">{profile.fullName}</h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl md:text-5xl font-bold print:text-3xl">{profile.fullName}</h1>
+
+              </div>
               {profile.headline && (
                 <p className="text-xl md:text-2xl font-medium mb-4 text-white/90 print:text-lg">{profile.headline}</p>
               )}
@@ -282,7 +285,12 @@ export default async function PortfolioPage({ params }: { params: Promise<{ slug
             <h2 className="text-2xl font-bold text-[#ff4c2b] mb-4 print:text-xl">Certifications</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-1 print:gap-2">
               {credentials.map((credential) => (
-                <div key={credential.id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition print:shadow-none print:border print:border-gray-300 print:break-inside-avoid">
+                <div
+                  key={credential.id}
+                  className={`bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition print:shadow-none print:border print:border-gray-300 print:break-inside-avoid relative`}
+                >
+
+
                   {/* Certificate Image Placeholder */}
                   <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-gray-400 print:h-24">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 print:h-12 print:w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">

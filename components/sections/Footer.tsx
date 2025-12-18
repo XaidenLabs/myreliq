@@ -24,7 +24,7 @@ export const FooterSection = () => (
         />
         <PrimaryButton
           label="Subscribe for drops"
-          className="bg-white text-[#ff4c2b] hover:bg-white/90 border-0 shadow-none font-bold"
+          className="bg-white !text-[#ff4c2b] hover:bg-white/90 border-0 shadow-none font-bold"
           href="https://tally.so/r/waitlist"
           target="_blank"
           rel="noreferrer"

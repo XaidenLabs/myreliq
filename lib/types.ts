@@ -27,6 +27,7 @@ export type Profile = {
   shareSlug: string;
   mintAddress?: string;
   completionScore: number;
+
   education: {
     school: string;
     degree: string;

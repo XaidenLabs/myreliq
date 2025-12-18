@@ -5,10 +5,18 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { AddCredentialModal } from "@/components/modals/AddCredentialModal";
 import { Credential } from "@/lib/types";
 
-export function CertificationsSection() {
+export function CertificationsSection({ onAddOverride }: { onAddOverride?: () => void }) {
     const { credentials, reloadDashboardData } = useDashboardStore();
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [loadingId, setLoadingId] = useState<string | null>(null);
+
+    const handleAdd = () => {
+        if (onAddOverride) {
+            onAddOverride();
+        } else {
+            setIsAddModalOpen(true);
+        }
+    };
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this certification?")) return;
@@ -39,7 +47,7 @@ export function CertificationsSection() {
                     </p>
                 </div>
                 <button
-                    onClick={() => setIsAddModalOpen(true)}
+                    onClick={handleAdd}
                     className="rounded-xl bg-[#ff4c2b] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-[#ff4c2b]/20 transition hover:bg-[#e64426]"
                 >
                     + Add Certification
@@ -151,7 +159,7 @@ export function CertificationsSection() {
                         Add your professional certifications to showcase your credentials
                     </p>
                     <button
-                        onClick={() => setIsAddModalOpen(true)}
+                        onClick={handleAdd}
                         className="inline-flex items-center gap-2 rounded-xl bg-[#ff4c2b] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-[#ff4c2b]/20 transition hover:bg-[#e64426]"
                     >
                         + Add Your First Certification

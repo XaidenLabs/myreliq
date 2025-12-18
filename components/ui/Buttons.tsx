@@ -71,7 +71,7 @@ export const GhostButton = ({
   const classNames =
     variant === "dark"
       ? `inline-flex items-center justify-center ${base} border-white/40 text-white hover:border-white ${className}`
-      : `inline-flex items-center justify-center ${base} border-[#1f1e2a]/30 text-[#1f1e2a] hover:border-[#1f1e2a] ${className}`;
+      : `inline-flex items-center justify-center ${base} border-[#1f1e2a]/30 text-[#1f1e2a] hover:border-[#1f1e2a] dark:border-white/30 dark:text-white dark:hover:border-white ${className}`;
 
   return renderAction({
     label,

@@ -146,13 +146,72 @@ export const revokeSessionByToken = async (refreshToken: string) => {
 export const getUserFromCookies = async (): Promise<User | null> => {
   const cookieStore = await cookies();
   const access = cookieStore.get(ACCESS_COOKIE_NAME)?.value;
-  if (!access) {
-    return null;
-  }
-  const payload = verifyAccessToken(access);
+
+  let payload = access ? verifyAccessToken(access) : null;
+
   if (!payload) {
-    return null;
+    // Attempt refresh
+    const refresh = cookieStore.get(REFRESH_COOKIE_NAME)?.value;
+    if (!refresh) return null;
+
+    try {
+      const result = await rotateSession({ refreshToken: refresh });
+      if (!result) return null;
+
+      const { session, newToken } = result;
+
+      // Fetch user to ensure they still exist/are valid
+      await connectDB();
+      const userDoc = await UserModel.findById(session.userId);
+      if (!userDoc) return null;
+
+      // Generate New Access Token
+      const newAccessToken = generateAccessToken({
+        userId: userDoc._id.toString(),
+        role: userDoc.role,
+      });
+
+      // Try setting cookies (might fail in Readonly context, but works in Route Handlers/Actions)
+      // Note: In Next.js App Router, cookies() is dynamic.
+      try {
+        cookieStore.set(ACCESS_COOKIE_NAME, newAccessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          path: "/",
+          maxAge: ACCESS_TOKEN_TTL_SECONDS,
+        });
+        cookieStore.set(REFRESH_COOKIE_NAME, newToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          path: "/",
+          maxAge: REFRESH_TOKEN_TTL_MS / 1000,
+        });
+      } catch (err) {
+        // Verify if we are in a context where we can't set cookies (e.g. rendering a component being streamed)
+        // We proceed anyway to allow this request to succeed
+        console.warn("Could not set refreshed cookies:", err);
+      }
+
+      return {
+        id: userDoc._id.toString(),
+        email: userDoc.email,
+        firstName: userDoc.firstName ?? undefined,
+        lastName: userDoc.lastName ?? undefined,
+        role: userDoc.role,
+        emailVerified: userDoc.emailVerified,
+        isSuspended: userDoc.isSuspended,
+        createdAt: userDoc.createdAt?.toISOString() ?? "",
+        updatedAt: userDoc.updatedAt?.toISOString() ?? "",
+      };
+    } catch (e) {
+      console.error("Token refresh failed:", e);
+      return null;
+    }
   }
+
+  // Access check passed
   await connectDB();
   const userDoc = await UserModel.findById(payload.userId);
   if (!userDoc) {

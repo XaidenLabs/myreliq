@@ -16,8 +16,7 @@ export async function GET(req: NextRequest) {
     const userId = await getUserId();
     if (!userId) return sendError("Unauthorized", 401);
 
-    const profile = await Profile.findOne({ userId });
-    // if (!profile) return sendError("Profile not found", 404); // Changed to avoid console error
+    let profile = await Profile.findOne({ userId });
 
     return sendSuccess(profile);
   } catch (error) {

@@ -4,7 +4,7 @@ import { useDashboardStore } from "@/store/useDashboardStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconBolt, IconMilestone, IconRoles, IconShare, IconSpark, IconMenu } from "@/components/icons";
+import { IconBolt, IconMilestone, IconRoles, IconShare, IconSpark, IconMenu, IconGraph } from "@/components/icons";
 import { toast } from "sonner";
 import { Identity, Role, Milestone } from "@/lib/types";
 import { CreateIdentityModal } from "@/components/modals/CreateIdentityModal";
@@ -19,6 +19,8 @@ import { ProfileSettingsForm } from "@/components/forms/ProfileSettingsForm";
 import { ProfileOnboardingModal } from "@/components/modals/ProfileOnboardingModal";
 import { ToolsProficiencySection } from "@/components/dashboard/ToolsProficiencySection";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { AnalyticsSection } from "@/components/dashboard/AnalyticsSection";
+
 
 // Placeholder components for sections - normally these would be in separate files
 const OverviewSection = ({
@@ -252,9 +254,35 @@ const DashboardPage = () => {
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
   const [showCredentialModal, setShowCredentialModal] = useState(false);
   const [showOnboardingModal, setShowOnboardingModal] = useState(false);
+
   const [selectedRoleId, setSelectedRoleId] = useState<string | undefined>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+
+  // Premium Gating Logic
+  const handleAddIdentity = () => {
+    setShowIdentityModal(true);
+  };
+
+  const handleAddCredential = () => {
+    setShowCredentialModal(true);
+  };
+
+  // Note: Milestones are usually added per role. We need to check TOTAL milestones across all roles?
+  // The user said "add only one milestone". This implies strict limit.
+  // Implementation assumes we need to intercept the triggering of AddMilestoneModal.
+  // Since AddMilestoneModal is likely triggered from within IdentityDetailsModal (if that's where roles are),
+  // we might need to pass this handler down.
+  // For now, let's define it.
+  const handleAddMilestone = (roleId?: string) => {
+    setSelectedRoleId(roleId);
+    setShowMilestoneModal(true);
+  };
+
+
+  const handleAddRole = () => {
+    setShowRoleModal(true);
+  };
 
   useEffect(() => {
     // Restore session if needed
@@ -367,6 +395,20 @@ const DashboardPage = () => {
 
             <button
               onClick={() => {
+                setActiveTab("analytics");
+                setSidebarOpen(false);
+              }}
+              className={`group flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 ${activeTab === "analytics"
+                ? "bg-[#1f1e2a] dark:bg-white text-white dark:text-[#1f1e2a] shadow-lg shadow-[#1f1e2a]/20"
+                : "text-[#5d5b66] dark:text-gray-400 hover:bg-white/50 dark:hover:bg-white/10"
+                }`}
+            >
+              <span className={`h-2 w-2 rounded-full ${activeTab === "analytics" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
+              Analytics
+            </button>
+
+            <button
+              onClick={() => {
                 setActiveTab("settings");
                 setSidebarOpen(false);
               }}
@@ -378,6 +420,17 @@ const DashboardPage = () => {
               <span className={`h-2 w-2 rounded-full ${activeTab === "settings" ? "bg-[#ff4c2b]" : "bg-transparent"}`}></span>
               My Details
             </button>
+
+
+            {(user?.role === "ADMIN" || user?.role === "SUPERADMIN") && (
+              <a
+                href="/admin"
+                className="group flex items-center gap-3 rounded-full px-6 py-3 text-[#5d5b66] dark:text-gray-400 hover:bg-white/50 dark:hover:bg-white/10 transition-all duration-300"
+              >
+                <div className="h-2 w-2 rounded-full bg-purple-500"></div>
+                Admin Panel
+              </a>
+            )}
           </nav>
         </div>
 
@@ -399,10 +452,10 @@ const DashboardPage = () => {
             Sign Out
           </button>
         </div>
-      </aside>
+      </aside >
 
       {/* Main Content */}
-      <div className="flex-1 transition-all duration-500 bg-[#fef7f5] dark:bg-[#1f1e2a] overflow-y-auto h-screen">
+      < div className="flex-1 transition-all duration-500 bg-[#fef7f5] dark:bg-[#1f1e2a] overflow-y-auto h-screen" >
         <header className="sticky top-0 z-20 flex items-center justify-between px-6 py-8 md:px-12 bg-[#fef7f5]/80 dark:bg-[#1f1e2a]/80 backdrop-blur-sm">
           {/* Mobile Menu Trigger */}
           <div className="md:hidden">
@@ -430,7 +483,7 @@ const DashboardPage = () => {
 
           {!dashboardLoading && activeTab === "overview" && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <IdentitiesSection />
+              <IdentitiesSection onAddIdentityOverride={handleAddIdentity} />
             </div>
           )}
 
@@ -447,6 +500,17 @@ const DashboardPage = () => {
                 shareSlug={profile?.shareSlug}
                 onCompleteProfile={() => setShowOnboardingModal(true)}
               />
+              <div className="pt-8 border-t border-[#1f1e2a]/5 dark:border-white/5">
+                <PortfolioSection
+                  identities={identities}
+                  roles={roles}
+                  milestones={milestones}
+                  onAddIdentity={handleAddIdentity}
+                  onAddRole={handleAddRole}
+                  onAddMilestone={handleAddMilestone}
+                  shareSlug={profile?.shareSlug}
+                />
+              </div>
             </div>
           )}
 
@@ -467,25 +531,29 @@ const DashboardPage = () => {
 
           {!dashboardLoading && activeTab === "certifications" && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <CertificationsSection />
+              <CertificationsSection onAddOverride={handleAddCredential} />
             </div>
           )}
 
           {!dashboardLoading && activeTab === "credentials" && (
             <CredentialsSection
               credentials={credentials}
-              onAddCredential={() => setShowCredentialModal(true)}
+              onAddCredential={handleAddCredential}
             />
           )}
+
+          {!dashboardLoading && activeTab === "analytics" && (
+            <AnalyticsSection />
+          )}
         </main>
-      </div>
+      </div >
 
       {/* Modals */}
-      <CreateIdentityModal
+      < CreateIdentityModal
         isOpen={showIdentityModal}
         onClose={() => setShowIdentityModal(false)}
       />
-      <CreateRoleModal
+      < CreateRoleModal
         isOpen={showRoleModal}
         onClose={() => setShowRoleModal(false)}
         identities={identities}
@@ -507,6 +575,7 @@ const DashboardPage = () => {
         isOpen={showOnboardingModal}
         onClose={() => setShowOnboardingModal(false)}
       />
+
     </div>
   );
 };

@@ -1,31 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconBolt } from "@/components/icons";
 import { toast } from "sonner";
 import { useDashboardStore } from "@/store/useDashboardStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { TagInput } from "../ui/TagInput";
+import { useRouter } from "next/navigation";
 
 export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
     const { profile, reloadDashboardData } = useDashboardStore();
     const { user } = useAuthStore();
+    const router = useRouter();
 
-    // Initialize state with profile data or defaults
+    // Initialize state
     const [formData, setFormData] = useState({
-        fullName: profile?.fullName || user?.firstName || "",
-        headline: profile?.headline || "",
-        bio: profile?.bio || "",
-        location: profile?.location || "",
-        profileImage: profile?.profileImage || "",
-        website: profile?.socials?.website || "",
-        twitter: profile?.socials?.twitter || "",
-        github: profile?.socials?.github || "",
-        linkedin: profile?.socials?.linkedin || "",
-        skills: profile?.skills || [],
-        interests: profile?.interests || [],
-        education: profile?.education || []
+        fullName: "",
+        headline: "",
+        bio: "",
+        location: "",
+        profileImage: "",
+        website: "",
+        twitter: "",
+        github: "",
+        linkedin: "",
+        skills: [] as string[],
+        interests: [] as string[],
+        education: [] as any[]
     });
+
+    useEffect(() => {
+        if (profile) {
+            setFormData({
+                fullName: profile.fullName || user?.firstName || "",
+                headline: profile.headline || "",
+                bio: profile.bio || "",
+                location: profile.location || "",
+                profileImage: profile.profileImage || "",
+                website: profile.socials?.website || "",
+                twitter: profile.socials?.twitter || "",
+                github: profile.socials?.github || "",
+                linkedin: profile.socials?.linkedin || "",
+                skills: profile.skills || [],
+                interests: profile.interests || [],
+                education: profile.education || []
+            });
+        }
+    }, [profile, user]);
 
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -51,6 +72,33 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validation
+        if (!formData.profileImage) {
+            toast.error("Profile image is required.");
+            return;
+        }
+        if (!formData.fullName.trim()) {
+            toast.error("Full name is required.");
+            return;
+        }
+        if (!formData.headline.trim()) {
+            toast.error("Headline is required.");
+            return;
+        }
+        if (!formData.bio.trim()) {
+            toast.error("Bio is required.");
+            return;
+        }
+        if (!formData.location.trim()) {
+            toast.error("Location is required.");
+            return;
+        }
+        if (formData.skills.length === 0) {
+            toast.error("Please add at least one skill.");
+            return;
+        }
+
         setLoading(true);
         setMessage(null);
 
@@ -83,6 +131,8 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                 await reloadDashboardData();
                 toast.success("Profile updated successfully");
                 if (onSuccess) onSuccess();
+                // Force reload if needed to ensure DashboardPage sees the update immediately or just rely on store
+                // router.refresh(); 
             } else {
                 setMessage("Failed to update profile.");
             }
@@ -107,7 +157,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                 <h3 className="text-lg font-bold text-[#1f1e2a] dark:text-white border-b border-[#1f1e2a]/5 pb-2">Basic Info</h3>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Profile Image</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Profile Image <span className="text-[#ff4c2b]">*</span></label>
                     <div className="flex items-center gap-4">
                         {formData.profileImage && (
                             <img src={formData.profileImage} alt="Profile" className="w-12 h-12 rounded-full object-cover border border-[#1f1e2a]/10 dark:border-white/10" />
@@ -165,7 +215,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Full Name</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Full Name <span className="text-[#ff4c2b]">*</span></label>
                         <input
                             type="text"
                             required
@@ -175,7 +225,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Headline</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Headline <span className="text-[#ff4c2b]">*</span></label>
                         <input
                             type="text"
                             placeholder="e.g. Senior Frontend Engineer"
@@ -187,7 +237,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                 </div>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Bio</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Bio <span className="text-[#ff4c2b]">*</span></label>
                     <textarea
                         rows={4}
                         placeholder="Tell your story..."
@@ -199,7 +249,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
 
                 <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Location</label>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Location <span className="text-[#ff4c2b]">*</span></label>
                         <input
                             type="text"
                             placeholder="e.g. Lagos, Nigeria"
@@ -212,7 +262,6 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                         <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Website</label>
                         <input
                             type="url"
-                            placeholder="https://..."
                             className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
                             value={formData.website}
                             onChange={e => setFormData({ ...formData, website: e.target.value })}
@@ -225,7 +274,7 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
             <div className="space-y-6">
                 <h3 className="text-lg font-bold text-[#1f1e2a] dark:text-white border-b border-[#1f1e2a]/5 pb-2">Skills & Interests</h3>
                 <TagInput
-                    label="Skill Set"
+                    label={<span>Skill Set <span className="text-[#ff4c2b]">*</span></span>}
                     tags={formData.skills}
                     onChange={(tags) => setFormData({ ...formData, skills: tags })}
                     placeholder="Add a skill (e.g. React, Design)..."

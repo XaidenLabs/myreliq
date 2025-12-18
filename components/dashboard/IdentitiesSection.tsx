@@ -7,7 +7,7 @@ import { IdentityDetailsModal } from "@/components/modals/IdentityDetailsModal";
 import { Identity } from "@/lib/types";
 import { IconVerified } from "@/components/icons";
 
-export function IdentitiesSection() {
+export function IdentitiesSection({ onAddIdentityOverride }: { onAddIdentityOverride?: () => void }) {
     const { identities, reloadDashboardData } = useDashboardStore();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -21,6 +21,10 @@ export function IdentitiesSection() {
     };
 
     const handleCreate = () => {
+        if (onAddIdentityOverride) {
+            onAddIdentityOverride();
+            return;
+        }
         setIdentityToEdit(null);
         setIsCreateModalOpen(true);
     };

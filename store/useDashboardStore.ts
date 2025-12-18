@@ -14,6 +14,7 @@ interface DashboardState {
     | "settings"
     | "credentials"
     | "certifications"
+    | "analytics"
     | "tools";
   isLoading: boolean;
   error: string | null;

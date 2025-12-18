@@ -23,7 +23,7 @@ export const HeroSection = () => (
       <GhostButton label={heroCopy.secondaryCta} href={heroCopy.secondaryHref} />
     </div>
 
-    <div className="flex flex-wrap items-center justify-center gap-4 pt-4 text-xs uppercase tracking-[0.3em] text-[#a07f82]">
+    <div className="flex flex-wrap items-center justify-center gap-4 pt-4 text-xs uppercase tracking-[0.3em] text-[#a07f82] dark:text-gray-400">
       {heroStickers.map((item) => {
         const Icon = heroIconMap[item.icon as keyof typeof heroIconMap];
         return (
