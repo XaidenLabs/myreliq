@@ -247,26 +247,15 @@ export function ProfileSettingsForm({ onSuccess }: { onSuccess?: () => void }) {
                     />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Location <span className="text-[#ff4c2b]">*</span></label>
-                        <input
-                            type="text"
-                            placeholder="e.g. Lagos, Nigeria"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
-                            value={formData.location}
-                            onChange={e => setFormData({ ...formData, location: e.target.value })}
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Website</label>
-                        <input
-                            type="url"
-                            className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
-                            value={formData.website}
-                            onChange={e => setFormData({ ...formData, website: e.target.value })}
-                        />
-                    </div>
+                <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#7d7b8a] dark:text-gray-400 mb-2">Location <span className="text-[#ff4c2b]">*</span></label>
+                    <input
+                        type="text"
+                        placeholder="e.g. Lagos, Nigeria"
+                        className="w-full rounded-xl border border-[#1f1e2a]/10 dark:border-white/10 bg-[#fef7f5] dark:bg-[#1f1e2a] px-4 py-3 font-medium text-[#1f1e2a] dark:text-white"
+                        value={formData.location}
+                        onChange={e => setFormData({ ...formData, location: e.target.value })}
+                    />
                 </div>
             </div>
 
