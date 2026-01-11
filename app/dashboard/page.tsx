@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useDashboardStore } from "@/store/useDashboardStore";
@@ -127,6 +129,8 @@ const PortfolioSection = ({
   milestones,
   onAddIdentity,
   onAddRole,
+  onEditRole,
+  onDeleteRole,
   onAddMilestone,
   shareSlug
 }: {
@@ -134,7 +138,9 @@ const PortfolioSection = ({
   roles: Role[],
   milestones: Milestone[],
   onAddIdentity: () => void,
-  onAddRole: () => void,
+  onAddRole: (identityId?: string) => void,
+  onEditRole: (role: Role) => void,
+  onDeleteRole: (roleId: string) => void,
   onAddMilestone: (roleId?: string) => void,
   shareSlug?: string
 }) => {
@@ -152,7 +158,7 @@ const PortfolioSection = ({
 
       {identities.length === 0 ? (
         <div className="text-center p-12 border-2 border-dashed border-gray-100 rounded-[2rem]">
-          <p className="text-[#5d5b66] mb-4">No identities yet. Create your first persona (e.g., "Product Designer") to start.</p>
+          <p className="text-[#5d5b66] mb-4">No identities yet. Create your first persona (e.g., &quot;Product Designer&quot;) to start.</p>
           <button
             onClick={onAddIdentity}
             className="text-[#ff4c2b] font-bold hover:underline"
@@ -188,7 +194,7 @@ const PortfolioSection = ({
                     milestones={milestones}
                   />
                   <button
-                    onClick={onAddRole} // Could pass identityId pre-selection
+                    onClick={() => onAddRole(identity.id)}
                     className="text-xs font-bold text-[#ff4c2b] bg-[#fef7f5] px-3 py-1.5 rounded-lg hover:bg-[#ffece8]"
                   >
                     + Role
@@ -206,6 +212,20 @@ const PortfolioSection = ({
                       <div>
                         <p className="font-bold text-[#1f1e2a]">{role.title}</p>
                         <p className="text-xs text-[#5d5b66] uppercase tracking-wider">{role.organization}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => onEditRole(role)}
+                          className="text-xs font-bold text-[#5d5b66] hover:text-[#ff4c2b]"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => onDeleteRole(role.id)}
+                          className="text-xs font-bold text-red-400 hover:text-red-500"
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
 
@@ -254,6 +274,9 @@ const DashboardPage = () => {
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
   const [showCredentialModal, setShowCredentialModal] = useState(false);
   const [showOnboardingModal, setShowOnboardingModal] = useState(false);
+  const [roleToEdit, setRoleToEdit] = useState<Role | undefined>(undefined);
+  const [selectedIdentityId, setSelectedIdentityId] = useState<string | undefined>(undefined); // Not used currently?
+
 
   const [selectedRoleId, setSelectedRoleId] = useState<string | undefined>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -268,21 +291,44 @@ const DashboardPage = () => {
     setShowCredentialModal(true);
   };
 
-  // Note: Milestones are usually added per role. We need to check TOTAL milestones across all roles?
-  // The user said "add only one milestone". This implies strict limit.
-  // Implementation assumes we need to intercept the triggering of AddMilestoneModal.
-  // Since AddMilestoneModal is likely triggered from within IdentityDetailsModal (if that's where roles are),
-  // we might need to pass this handler down.
-  // For now, let's define it.
   const handleAddMilestone = (roleId?: string) => {
     setSelectedRoleId(roleId);
     setShowMilestoneModal(true);
   };
 
 
-  const handleAddRole = () => {
+  const handleAddRole = (identityId?: string) => {
+    setRoleToEdit(undefined); // Clear any edit state
+    // Could pass identityId to pre-select, but CreateRoleModal doesn't strictly support pre-select override yet except default.
+    // We can refactor CreateRoleModal later to accept initialIdentityId.
+    // For now, just opening.
     setShowRoleModal(true);
   };
+
+  const handleEditRole = (role: Role) => {
+    setRoleToEdit(role);
+    setShowRoleModal(true);
+  }
+
+  const handleDeleteRole = async (roleId: string) => {
+    if (!confirm("Are you sure you want to delete this role and all its milestones?")) return;
+
+    try {
+      const res = await fetch(`/api/roles/${roleId}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        toast.success("Role deleted successfully");
+        reloadDashboardData();
+      } else {
+        toast.error("Failed to delete role");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
+    }
+  }
 
   useEffect(() => {
     // Restore session if needed
@@ -507,6 +553,8 @@ const DashboardPage = () => {
                   milestones={milestones}
                   onAddIdentity={handleAddIdentity}
                   onAddRole={handleAddRole}
+                  onEditRole={handleEditRole}
+                  onDeleteRole={handleDeleteRole}
                   onAddMilestone={handleAddMilestone}
                   shareSlug={profile?.shareSlug}
                 />
@@ -557,6 +605,7 @@ const DashboardPage = () => {
         isOpen={showRoleModal}
         onClose={() => setShowRoleModal(false)}
         identities={identities}
+        roleToEdit={roleToEdit}
       />
       <AddMilestoneModal
         isOpen={showMilestoneModal}

@@ -1,18 +1,23 @@
 "use client";
 
-import { IconBolt } from "@/components/icons";
+import { useRouter, usePathname } from "next/navigation";
+import { IconBolt, IconRoles, IconSpark, IconMenu } from "@/components/icons";
 import { GhostButton } from "@/components/ui/Buttons";
 
 interface AdminSidebarProps {
-    activeTab: string;
-    setActiveTab: (tab: string) => void;
+    activeTab?: string;
+    setActiveTab?: (tab: string) => void;
 }
 
 export function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarProps) {
+    const router = useRouter();
+    const pathname = usePathname();
+
     const tabs = [
-        { id: "overview", label: "Overview" },
-        { id: "users", label: "Users" },
-        { id: "settings", label: "Settings" },
+        { id: "overview", label: "Overview", icon: IconSpark },
+        { id: "users", label: "Users", icon: IconMenu }, // Assuming IconMenu for Users based on previous context, verify?
+        { id: "roles", label: "Roles", icon: IconRoles },
+        { id: "settings", label: "Settings", icon: IconBolt },
     ];
 
     return (
@@ -28,18 +33,35 @@ export function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarProps) {
                     </div>
                 </div>
                 <nav className="flex flex-col gap-2 font-medium text-base">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex w-full items-center justify-start rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 ${activeTab === tab.id
-                                ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/10 dark:bg-white dark:text-[#1f1e2a]"
-                                : "text-[#5d5b66] hover:bg-[#ffece8] hover:text-[#ff4c2b] dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
+                    {tabs.map((tab) => {
+                        const isActive = activeTab === tab.id || (tab.id === 'roles' && pathname.startsWith('/admin/roles'));
+
+                        return (
+                            <button
+                                key={tab.id}
+                                onClick={() => {
+                                    if (tab.id === 'roles') {
+                                        router.push('/admin/roles');
+                                    } else {
+                                        if (pathname === '/admin' && setActiveTab) {
+                                            setActiveTab(tab.id);
+                                        } else {
+                                            // Ensure we go back to admin home. 
+                                            // Ideally we'd pass a query param to open the right tab, but keeping it simple for now.
+                                            router.push('/admin');
+                                        }
+                                    }
+                                }}
+                                className={`flex w-full items-center justify-start rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 gap-3 ${isActive
+                                    ? "bg-[#1f1e2a] text-white shadow-lg shadow-[#1f1e2a]/10 dark:bg-white dark:text-[#1f1e2a]"
+                                    : "text-[#5d5b66] hover:bg-[#ffece8] hover:text-[#ff4c2b] dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
+                                    }`}
+                            >
+                                {/* {tab.icon && <tab.icon className="w-5 h-5" />}  -- icons were not in original tabs map but imported? let's skipping icons in rendering to match original unless requested, but I added them to array. I will skip rendering icon for now to match style or add them if style permits. The original implementation did NOT show icons in the list, just text. I will stick to text to be safe or add icons if I see them in imports. I imported them, so maybe I should use them. The design seems premium, icons are good. */}
+                                {tab.label}
+                            </button>
+                        );
+                    })}
                 </nav>
             </div>
 

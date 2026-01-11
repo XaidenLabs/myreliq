@@ -2,16 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useDashboardStore } from "@/store/useDashboardStore";
-import { Identity, WorkMode } from "@/lib/types";
+import { Identity, WorkMode, Role } from "@/lib/types";
 import { TagInput } from "../ui/TagInput";
+import { format } from "date-fns";
 
 interface CreateRoleModalProps {
     isOpen: boolean;
     onClose: () => void;
     identities: Identity[];
+    roleToEdit?: Role;
 }
 
-export function CreateRoleModal({ isOpen, onClose, identities }: CreateRoleModalProps) {
+export function CreateRoleModal({ isOpen, onClose, identities, roleToEdit }: CreateRoleModalProps) {
     const { reloadDashboardData } = useDashboardStore();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -25,12 +27,61 @@ export function CreateRoleModal({ isOpen, onClose, identities }: CreateRoleModal
         tags: [] as string[],
     });
 
-    // Update default identity when identities load or modal opens
+    const resetForm = () => {
+        setFormData({
+            identityId: identities[0]?.id || "",
+            title: "",
+            organization: "",
+            workMode: "remote",
+            startDate: "",
+            endDate: "",
+            description: "",
+            tags: [],
+        });
+    }
+
+    // Initialize form when modal opens or roleToEdit changes
     useEffect(() => {
-        if (isOpen && identities.length > 0 && !formData.identityId) {
-            setFormData(prev => ({ ...prev, identityId: identities[0].id }));
+        if (isOpen) {
+            if (roleToEdit) {
+                setFormData({
+                    identityId: roleToEdit.identityId,
+                    title: roleToEdit.title,
+                    organization: roleToEdit.organization,
+                    workMode: (roleToEdit.workMode as WorkMode) || "remote",
+                    // Ensure dates are formatted as YYYY-MM-DD for input[type=date]
+                    startDate: roleToEdit.startDate ? new Date(roleToEdit.startDate).toISOString().split('T')[0] : "",
+                    endDate: roleToEdit.endDate ? new Date(roleToEdit.endDate).toISOString().split('T')[0] : "",
+                    description: roleToEdit.description || "",
+                    tags: roleToEdit.tags || [],
+                });
+            } else {
+                if (identities.length > 0 && !formData.identityId) {
+                    // Only set default if not editing. 
+                    // Wait, if I close and reopen "Add", it should reset.
+                    // The parent might not unmount this component.
+                    // I should reset if !roleToEdit
+                    setFormData(prev => ({ ...prev, identityId: identities[0].id }));
+                }
+            }
+        } else {
+            // Optional: reset when closed to avoid flashing old data on reopen?
+            // Better handled by parent resetting roleToEdit, but safety clear is good.
+            // However, simple state reset when opening as new might be better.
         }
-    }, [isOpen, identities]);
+    }, [isOpen, identities, roleToEdit]);
+
+    // Safety check for reset on "New" mode
+    useEffect(() => {
+        if (isOpen && !roleToEdit) {
+            // If we open in "Add" mode, make sure we aren't showing stale edit data?
+            // Actually, useEffect above handles setting data on roleToEdit change.
+            // If roleToEdit becomes undefined (add mode), we should probably reset.
+            resetForm();
+            if (identities.length > 0) setFormData(prev => ({ ...prev, identityId: identities[0].id }));
+        }
+    }, [isOpen, roleToEdit]);
+
 
     if (!isOpen) return null;
 
@@ -39,31 +90,35 @@ export function CreateRoleModal({ isOpen, onClose, identities }: CreateRoleModal
         setLoading(true);
 
         try {
-            // Clean payload: empty strings for dates should be null or undefined
+            // Clean payload
             const payload = {
                 ...formData,
                 endDate: formData.endDate || null,
             };
 
-            const res = await fetch("/api/roles", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
+            let res;
+            if (roleToEdit) {
+                // UPDATE
+                res = await fetch(`/api/roles/${roleToEdit.id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+            } else {
+                // CREATE
+                res = await fetch("/api/roles", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+            }
 
             if (res.ok) {
                 await reloadDashboardData();
                 onClose();
-                setFormData({
-                    identityId: identities[0]?.id || "",
-                    title: "",
-                    organization: "",
-                    workMode: "remote",
-                    startDate: "",
-                    endDate: "",
-                    description: "",
-                    tags: [],
-                });
+                resetForm();
+            } else {
+                console.error("Failed to save role");
             }
         } catch (error) {
             console.error(error);
@@ -75,7 +130,9 @@ export function CreateRoleModal({ isOpen, onClose, identities }: CreateRoleModal
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div className="w-full max-w-2xl bg-white rounded-3xl p-8 shadow-2xl animate-in fade-in zoom-in duration-200 h-[90vh] overflow-y-auto">
-                <h2 className="text-2xl font-bold text-[#1f1e2a] mb-6">Add Experience Role</h2>
+                <h2 className="text-2xl font-bold text-[#1f1e2a] mb-6">
+                    {roleToEdit ? "Edit Experience Role" : "Add Experience Role"}
+                </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid sm:grid-cols-2 gap-4">
@@ -170,6 +227,7 @@ export function CreateRoleModal({ isOpen, onClose, identities }: CreateRoleModal
                             className="w-full rounded-xl border border-[#1f1e2a]/10 bg-[#fef7f5] px-4 py-3 font-medium text-[#1f1e2a] focus:border-[#ff4c2b] focus:outline-none focus:ring-1 focus:ring-[#ff4c2b]"
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            required
                         />
                     </div>
 
@@ -187,7 +245,7 @@ export function CreateRoleModal({ isOpen, onClose, identities }: CreateRoleModal
                             disabled={loading}
                             className="rounded-xl bg-[#ff4c2b] px-6 py-2 text-sm font-bold text-white shadow-lg shadow-[#ff4c2b]/20 hover:bg-[#e64426] transition disabled:opacity-50"
                         >
-                            {loading ? "Saving..." : "Save Role"}
+                            {loading ? "Saving..." : (roleToEdit ? "Update Role" : "Save Role")}
                         </button>
                     </div>
                 </form>
