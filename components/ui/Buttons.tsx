@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { MouseEventHandler } from "react";
+import type { MouseEventHandler, ElementType } from "react";
 
 type ButtonProps = {
   label: string;
@@ -11,6 +11,7 @@ type ButtonProps = {
   ariaLabel?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  icon?: ElementType;
 };
 
 const renderAction = ({
@@ -23,8 +24,16 @@ const renderAction = ({
   ariaLabel,
   disabled,
   type,
+  icon: Icon,
 }: ButtonProps) => {
   const classes = `${className ?? ""}`.trim();
+  const content = (
+    <>
+      <span className={Icon ? "mr-2" : ""}>{label}</span>
+      {Icon && <Icon className="h-5 w-5" />}
+    </>
+  );
+
   if (href) {
     return (
       <Link
@@ -35,7 +44,7 @@ const renderAction = ({
         aria-label={ariaLabel}
         onClick={onClick as MouseEventHandler<HTMLAnchorElement>}
       >
-        {label}
+        {content}
       </Link>
     );
   }
@@ -48,7 +57,7 @@ const renderAction = ({
       disabled={disabled}
       type={type ?? "button"}
     >
-      {label}
+      {content}
     </button>
   );
 };
